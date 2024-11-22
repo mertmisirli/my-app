@@ -1,0 +1,19 @@
+/* Container for the carousel */
+.carousel-container {
+    display: flex;
+    overflow-x: auto; /* Allows horizontal scrolling */
+    gap: 10px; /* Adds space between items */
+    padding: 20px 0; /* Adds padding to the top and bottom */
+    scroll-snap-type: x mandatory; /* Enables snap scrolling for smooth transition */
+}
+
+/* Individual items in the carousel */
+.carousel-item {
+    flex: 0 0 auto; /* Prevents the items from shrinking or growing */
+    width: 200px; /* Fixed width for each item */
+    background-color: red; /* Red background as specified */
+    text-align: center; /* Center the text */
+    padding: 20px; /* Padding for spacing inside the item */
+    border-radius: 8px; /* Optional: rounded corners */
+    scroll-snap-align: start; /* Ensures each item aligns when scrolling */
+}
