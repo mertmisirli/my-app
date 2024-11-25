@@ -45,7 +45,12 @@ const News = () => {
 
         fetchNews()
     }, [dispatch])  // [] bağımlılığı, sadece bileşen ilk render'da çalışmasını sağlar
-
+    
+    useEffect(() => {
+        if (news.length > 0) {
+            setFeaturedNews(news.slice(0, 10)); // Redux'tan gelen haberleri kullanarak featuredNews'u güncelle
+        }
+    }, [news]);  // `news` state'ine bağlı olarak çalışacak
 
 
     const nextSlide = () => {
@@ -56,7 +61,7 @@ const News = () => {
     const prevSlide = () => {
         if ((slideIndex - 1) === 0) {
             console.log("Slide Index : ", slideIndex);
-            
+
             setSlideIndex(5)
 
         }
@@ -93,8 +98,8 @@ const News = () => {
                         <div style={{ width: '100%', height: '100%', backgroundColor: 'lightgray', display: 'flex', justifyContent: 'center', alignItems: 'center', borderRadius: '5px' }}>
                             <p>{item.title}</p>
 
-                            <p onClick={prevSlide} style={{ position: 'absolute', left: '2%', top: '35%', fontSize: '30px' }}>&lt;</p>
-                            <p onClick={nextSlide} style={{ position: 'absolute', right: '2%', top: '35%', fontSize: '30px' }}>&gt;</p>
+                            <button onClick={prevSlide} style={{ cursor: 'pointer', position: 'absolute', left: '2%', top: '35%', fontSize: '30px' }}>&lt;</button>
+                            <button onClick={nextSlide} style={{ cursor: 'pointer', position: 'absolute', right: '2%', top: '35%', fontSize: '30px' }}>&gt;</button>
 
                         </div>
                     </div>
