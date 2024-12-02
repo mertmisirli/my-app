@@ -1,6 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-const initialState = { news: [], }
+const initialState = {
+    news: [],
+    filteredNews: [],
+    inputText: ''
+}
 
 export const newsSlice = createSlice(
     {
@@ -14,6 +18,10 @@ export const newsSlice = createSlice(
                 state.news = action.payload;
                 // set news from action.payload 
             },
+            setInputText: (state, action) => {
+                state.inputText = action.payload;
+            },
+
             updateCompleted: (state, action) => {
                 console.log("Update Completed ..");
                 const { id } = action.payload;
@@ -40,10 +48,17 @@ export const newsSlice = createSlice(
                 // optional chaining for safety 
                 //sortedNews.filter(n => n.id < 10);
                 state.news = sortedNews;
+            },
+            filterNews: (state, action) => {
+                const filterText = action.payload;
+
+                state.filteredNews = state.news.filter(item =>
+                    item.title.toLowerCase().includes(filterText.toLowerCase())
+                );
             }
         },
     })
 
-    export const { setFetchedNews, updateCompleted, orderNews } = newsSlice.actions 
+export const { setFetchedNews,setInputText, updateCompleted, orderNews, filterNews } = newsSlice.actions
 
 export default newsSlice.reducer

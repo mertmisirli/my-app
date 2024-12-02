@@ -3,7 +3,7 @@ import Header from '../components/Header'
 import { useSelector, useDispatch } from 'react-redux'
 import Modal from '../components/Modal'
 import NewsCard from '../components/NewsCard'
-import { setFetchedNews } from '../redux/newsSlice'  // Redux action'ını import ettik
+import { setFetchedNews, setInputText } from '../redux/newsSlice'  // Redux action'ını import ettik
 import '../styles/News.css';
 
 const News = () => {
@@ -12,6 +12,8 @@ const News = () => {
 
     // news verisini Redux store'dan alıyoruz
     const news = useSelector(state => state.news.news)
+    const filteredNews = useSelector(state => state.news.filteredNews)
+    const inputText = useSelector(state => state.news.inputText)
 
     const [featuredNews, setFeaturedNews] = useState([])
     const [slideIndex, setSlideIndex] = useState(1)
@@ -24,6 +26,9 @@ const News = () => {
 
     useEffect(() => {
         // API çağrısı
+
+        dispatch(setInputText(''));
+
         const fetchNews = async () => {
             try {
                 const response = await fetch('https://jsonplaceholder.typicode.com/todos') // API URL'nizi buraya koyun
@@ -45,34 +50,27 @@ const News = () => {
 
         fetchNews()
     }, [dispatch])  // [] bağımlılığı, sadece bileşen ilk render'da çalışmasını sağlar
-    
+
     useEffect(() => {
         if (news.length > 0) {
             setFeaturedNews(news.slice(0, 10)); // Redux'tan gelen haberleri kullanarak featuredNews'u güncelle
         }
     }, [news]);  // `news` state'ine bağlı olarak çalışacak
 
-
     const nextSlide = () => {
         setSlideIndex((slideIndex + 1) % 5);
-
     }
 
     const prevSlide = () => {
         if ((slideIndex - 1) === 0) {
             console.log("Slide Index : ", slideIndex);
-
             setSlideIndex(5)
-
         }
 
         else {
             console.log("Slide Index : ", slideIndex);
-
             setSlideIndex(slideIndex - 1)
-
         }
-
     }
 
     return (
@@ -86,8 +84,6 @@ const News = () => {
 
             {/* Hata durumu */}
             {error && <p style={{ color: 'red' }}>Hata: {error}</p>}
-
-
 
             <div className="d-flex" style={{ width: '100%', position: 'relative' }}>
                 {news && news.length > 0 && featuredNews.filter((n, index) => index === slideIndex).map((item) => (
@@ -107,21 +103,36 @@ const News = () => {
             </div>
 
 
+                <p>Input Text : {inputText}</p>
 
 
-
-            {/* Veri başarıyla geldiğinde göstermek */}
-            <div className="row mt-2">
-                {news && news.length > 0 ? (
-                    news.map(item => (
+            {inputText !== '' ? (
+                filteredNews && filteredNews.length > 0 ? (
+                    <div className="row mt-2">
+                        {filteredNews.map(item => (
+                            <div key={item.id} className="col-md-3 mb-4">
+                                <NewsCard news={item} />
+                            </div>
+                        ))}
+                    </div>
+                ) : (
+                    <p>No News Found</p>
+                )
+            ) : (
+                <div className="row mt-2">
+                    <p>All News</p>
+                    {news.map(item => (
                         <div key={item.id} className="col-md-3 mb-4">
                             <NewsCard news={item} />
                         </div>
-                    ))
-                ) : (
-                    <p>Haber bulunamadı</p>
-                )}
-            </div>
+                    ))}
+                </div>
+            )}
+
+
+
+
+
         </div>
     )
 }

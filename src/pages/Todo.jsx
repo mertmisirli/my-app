@@ -10,7 +10,7 @@ const Todo = () => {
 
 
     const [inputValue, setInputValue] = useState('');
-    const [cardContent, setCardContent] = useState('');
+    const [cardContents, setCardContents] = useState([]);
     const [isDisabled, setIsDisabled] = useState(false);
 
     // Input değeri değiştiğinde çağrılacak fonksiyon
@@ -21,9 +21,12 @@ const Todo = () => {
     // Space tuşuna basıldığında metni card olarak eklemek
     const handleKeyPress = (e) => {
         if (e.key === ' ' && inputValue.trim() !== '') { // Space tuşuna basıldığında
-            setCardContent(inputValue); // Card içerisine ekle
+
+            setCardContents((prev) => [...prev, inputValue]);
             //setIsDisabled(true); // Input'u disabled yap
             setInputValue(''); // Input'u temizle
+
+
         }
     };
 
@@ -93,6 +96,12 @@ const Todo = () => {
                             </div>
                         </div>
                     </div>
+                </div>
+
+                <div>
+                    {cardContents.map((c, index) => (
+                        <div key={index}>{c}</div>
+                    ))}
                 </div>
                 {/* Todo listesi */}
 
