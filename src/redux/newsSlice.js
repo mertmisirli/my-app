@@ -52,13 +52,18 @@ export const newsSlice = createSlice(
             filterNews: (state, action) => {
                 const filterText = action.payload;
 
-                state.filteredNews = state.news.filter(item =>
-                    item.title.toLowerCase().includes(filterText.toLowerCase())
-                );
+                if (filterText.length > 0 ) {
+                    console.log("Filter Text : ", filterText);
+
+                    state.filteredNews = state.news.filter(item =>
+                        item.title.toLowerCase().includes(filterText.toLowerCase())
+                    );
+                }
+
             }
         },
     })
 
-export const { setFetchedNews,setInputText, updateCompleted, orderNews, filterNews } = newsSlice.actions
+export const { setFetchedNews, setInputText, updateCompleted, orderNews, filterNews } = newsSlice.actions
 
 export default newsSlice.reducer

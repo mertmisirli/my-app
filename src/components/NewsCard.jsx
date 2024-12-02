@@ -10,8 +10,6 @@ const NewsCard = ({ news }) => {
         dispatch(updateCompleted({ id: news.id }));  // news.id'yi nesne olarak gönderiyoruz
     }
 
-
-
     return (
         <>
 
