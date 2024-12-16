@@ -1,0 +1,105 @@
+/* Profile.css */
+
+.profile-container {
+    margin: 0 20px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .profile-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .profile-picture {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    margin-right: 20px;
+  }
+  
+  .profile-info h2 {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .profile-info .email, .profile-info .location, .profile-info .joined {
+    font-size: 14px;
+    color: #6c757d;
+  }
+  
+  .profile-bio, .profile-skills, .profile-activity, .profile-contact, .profile-stats {
+    margin-bottom: 25px;
+  }
+  
+  .profile-bio h3, .profile-skills h3, .profile-activity h3, .profile-contact h3, .profile-stats h4 {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .profile-bio p, .profile-contact p {
+    font-size: 16px;
+    color: #333;
+  }
+  
+  .profile-skills ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .skill-item {
+    display: inline-block;
+    margin: 5px;
+    padding: 5px 10px;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+    font-size: 14px;
+  }
+  
+  .profile-activity ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .activity-item {
+    font-size: 14px;
+    margin: 5px 0;
+  }
+  
+  .profile-stats {
+    display: flex;
+    justify-content: space-between;
+    font-size: 16px;
+  }
+  
+  .stat p {
+    font-weight: bold;
+    color: #007bff;
+  }
+  
+  .profile-footer {
+    text-align: center;
+  }
+  
+  .edit-profile-btn {
+    padding: 12px 25px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .edit-profile-btn:hover {
+    background-color: #0056b3;
+  }
+  
+  .edit-profile-btn:focus {
+    outline: none;
+  }
+  

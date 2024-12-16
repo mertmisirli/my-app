@@ -17,3 +17,13 @@
     border-radius: 8px; /* Optional: rounded corners */
     scroll-snap-align: start; /* Ensures each item aligns when scrolling */
 }
+
+.slide-fade {
+    animation: fadeInOut 1s ease-in-out infinite;
+}
+
+@keyframes fadeInOut {
+    0% { opacity: 0; }
+    50% { opacity: 1; }
+    100% { opacity: 0; }
+}

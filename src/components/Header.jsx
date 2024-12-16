@@ -3,50 +3,145 @@ import { useDispatch, useSelector } from "react-redux";
 import { MdPostAdd } from "react-icons/md";
 import { modalFunc } from "../redux/modalSlice";
 import { filterNews, orderNews, setInputText } from "../redux/newsSlice";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   const dispatch = useDispatch();
-  const [inputVal, setInputVal] = useState([]);
-  const inputText = useSelector(state => state.news.inputText)
+  const inputText = useSelector((state) => state.news.inputText);
+  const [showSettingsMenu, setShowSettingsMenu] = useState(false);
 
-  const handleChange = (e) => {
-    setInputVal(e.target.value);
-
+  // Update input text in Redux state and apply filter
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+    dispatch(setInputText(value));
+    dispatch(filterNews(value));
   };
 
-  useEffect(() => {
-    console.log("input Val : ", inputVal);
-    dispatch(setInputText(inputVal))
-    dispatch(filterNews(inputVal))
+  // Toggle settings menu visibility
+  const toggleSettingsMenu = () => {
+    setShowSettingsMenu((prev) => !prev);
+  };
 
-  }, [inputVal]); // inputVal değiştikçe bu effect çalışacak
-
+  // Handle ordering of news
+  const handleOrderChange = (order) => {
+    dispatch(orderNews(order));
+  };
 
   return (
-    <div className="flex items-center justify-between bg-indigo-600 text-white p-4" style={{ zIndex: 1000 }}>
-      <div className="text-3xl">App</div>
-      <button onClick={() => dispatch(orderNews('asc'))}>ASC</button>
-      <button onClick={() => dispatch(orderNews('desc'))}>DESC</button>
+    <div className="flex items-center justify-between bg-indigo-600 text-white p-4 z-50">
+      {/* Logo */}
+      <Link to="/" className="text-3xl">
+        App
+      </Link>
+
+      {/* Sorting buttons for larger screens
+      <div className="hidden md:flex gap-4">
+        <button
+          onClick={() => handleOrderChange("asc")}
+          className="bg-indigo-800 p-2 rounded text-white"
+        >
+          ARTAN
+        </button>
+        <button
+          onClick={() => handleOrderChange("desc")}
+          className="bg-indigo-800 p-2 rounded text-white"
+        >
+          AZALAN
+        </button>
+      </div> */}
+
+      {/* Content Section (Search, Post, Profile) */}
       <div className="flex items-center gap-5">
-        <div className="text-black">
-          <select className="h-10 rounded-lg" name="sort" id="sort">
-            <option value="asc" onClick={() => dispatch(orderNews('desc'))}>ARTAN</option>
-            <option value="desc" onClick={() => dispatch(orderNews('asc'))}>AZALAN</option>
+        {/* Sort Dropdown */}
+        <div className="text-black hidden md:block">
+          <select
+            className="h-10 rounded-lg px-4"
+            name="sort"
+            id="sort"
+            onChange={(e) => handleOrderChange(e.target.value)}
+            value={inputText}
+          >
+            <option value="asc">ARTAN</option>
+            <option value="desc">AZALAN</option>
           </select>
         </div>
+
+        {/* Search Input */}
         <input
           className="h-10 rounded-lg px-4 text-black"
           type="text"
-          value={inputVal}
-          onChange={handleChange}
+          value={inputText}
+          onChange={handleInputChange}
           placeholder="Arama yap..."
         />
-        <button className="bg-indigo-800 w-10 h-10 rounded-full flex items-center justify-center"
-          onClick={() => dispatch(modalFunc())}>
 
+        {/* Add Post Button */}
+        <button
+          className="bg-indigo-800 w-10 h-10 rounded-full flex items-center justify-center"
+          onClick={() => dispatch(modalFunc())}
+          aria-label="Create New Post"
+        >
           <MdPostAdd size={24} />
         </button>
+
+        {/* Profile Menu Button */}
+        <div className="relative">
+          <button
+            className="text-white"
+            onClick={toggleSettingsMenu}
+            aria-label="Profile Menu"
+          >
+            Profil
+          </button>
+
+          {/* Profile Dropdown Menu */}
+          {showSettingsMenu && (
+            <div
+              className="absolute top-16 right-0 p-3 bg-black text-white rounded z-50"
+              aria-label="Profile options"
+            >
+              <ul>
+                <li>
+                  <Link to="/profile" className="block p-2 hover:bg-indigo-700 rounded">
+                    Hesabım
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/plans" className="block p-2 hover:bg-indigo-700 rounded">
+                    Planlarım
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/calendar" className="block p-2 hover:bg-indigo-700 rounded">
+                    Takvim
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/settings" className="block p-2 hover:bg-indigo-700 rounded">
+                    Ayarlar
+                  </Link>
+                </li>
+              </ul>
+            </div>
+          )}
+        </div>
       </div>
+
+      {/* Mobile Sorting Buttons
+      <div className="md:hidden flex flex-col gap-4">
+        <button
+          onClick={() => handleOrderChange("asc")}
+          className="bg-indigo-800 p-2 rounded text-white w-full"
+        >
+          ARTAN
+        </button>
+        <button
+          onClick={() => handleOrderChange("desc")}
+          className="bg-indigo-800 p-2 rounded text-white w-full"
+        >
+          AZALAN
+        </button>
+      </div> */}
     </div>
   );
 };

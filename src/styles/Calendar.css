@@ -1,0 +1,67 @@
+/* Calendar.css */
+
+.calendar-container {
+    margin: 0 20px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .calendar-content {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .calendar-wrapper {
+    flex: 1;
+    margin-right: 20px;
+  }
+  
+  .workout-details {
+    flex: 1;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .workout-details h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+  
+  .workout-details p {
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+  
+  .mark-completed-btn,
+  .add-workout-btn {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-right: 10px;
+  }
+  
+  .mark-completed-btn:hover,
+  .add-workout-btn:hover {
+    background-color: #0056b3;
+  }
+  
+  .workout-scheduled {
+    background-color: #ffdfb6;
+    border-radius: 50%;
+    color: #b85c00;
+    font-weight: bold;
+  }
+  
