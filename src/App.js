@@ -28,42 +28,64 @@
 // };
 
 // export default App;
+// src/App.js
 
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
-import Product from './pages/Product'
-import News from "./pages/News";
-import NewsDetail from "./pages/NewsDetail";
-import Todo from "./pages/Todo";
-import Home from "./pages/Home";
-import CategoryDetail from "./pages/CategoryDetail";
-import Category from "./pages/Category";
-import Profile from "./pages/Profile";
-import Plans from "./pages/Plans";
-import Calendar from "./pages/Calendar";
-import Settings from "./pages/Settings";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Provider, useSelector } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
+import { persistor } from './redux/store'; // Store ve persistor'ı import ettik
+import { store } from './redux/store';
+import Home from './pages/Home';
+import News from './pages/News';
+import NewsDetail from './pages/NewsDetail';
+import Todo from './pages/Todo';
+import Category from './pages/Category';
+import CategoryDetail from './pages/CategoryDetail';
+import Profile from './pages/Profile';
+import Plans from './pages/Plans';
+import Calendar from './pages/Calendar';
+import Settings from './pages/Settings';
+import Sidebar from './components/Sidebar'; // Sidebar component'i
+import Quotation from './pages/sidebar/Quotation/Quotation';
 
 function App() {
+  const showSidebar = useSelector((state) => state.sidebar.showSidebar);
+
   return (
-    <div className="">
-      <Router>
-        <Routes>
-          <Route index path="/" element={<Home />}></Route>
-          <Route index path="/news" element={<News />}></Route> 
-          <Route index path="/news-detail/:id" element={<NewsDetail />}></Route>
-          <Route index path="/todo" element={<Todo />}></Route>
-          <Route index path="/categories" element={<Category />}></Route>
-          <Route index path="/category-detail/:id" element={<CategoryDetail />}></Route>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <div className="App">
+          <Sidebar />
 
-          <Route index path="/profile" element={<Profile />}></Route>
-          <Route index path="/plans" element={<Plans />}></Route>
-          <Route index path="/calendar" element={<Calendar />}></Route>
-          <Route index path="/settings" element={<Settings />}></Route>
+          <div
+            style={{
+              transition: 'margin-left 0.3s', // İçeriğin kayma süresi
+              marginLeft: showSidebar ? '250px' : '0', // Sidebar açıldığında içerik kayacak
+              flex: 1, // İçeriğin geri kalan kısmı
+            }}
+          >
+            <Router>
+              <Routes>
+                <Route index path="/" element={<Home />} />
+                <Route path="/news" element={<News />} />
+                <Route path="/news-detail/:id" element={<NewsDetail />} />
+                <Route path="/todo" element={<Todo />} />
+                <Route path="/categories" element={<Category />} />
+                <Route path="/category-detail/:id" element={<CategoryDetail />} />
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/plans" element={<Plans />} />
+                <Route path="/calendar" element={<Calendar />} />
+                <Route path="/settings" element={<Settings />} />
 
-        </Routes>
-      </Router>
-    </div>
+                {/* Sidebar Pages */}
+                <Route path="/new-quotation" element={<Quotation />} />
+              </Routes>
+            </Router>
+          </div>
+        </div>
+      </PersistGate>
+    </Provider>
   );
 }
 
 export default App;
-

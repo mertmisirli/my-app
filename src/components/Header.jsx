@@ -4,10 +4,14 @@ import { MdPostAdd } from "react-icons/md";
 import { modalFunc } from "../redux/modalSlice";
 import { filterNews, orderNews, setInputText } from "../redux/newsSlice";
 import { Link } from "react-router-dom";
+import { toggleSidebar } from "../redux/sidebarSlice";
 
 const Header = () => {
   const dispatch = useDispatch();
   const inputText = useSelector((state) => state.news.inputText);
+
+  const isOpen = useSelector((state) => state.sidebar.showSidebar)
+
   const [showSettingsMenu, setShowSettingsMenu] = useState(false);
 
   // Update input text in Redux state and apply filter
@@ -27,8 +31,18 @@ const Header = () => {
     dispatch(orderNews(order));
   };
 
+
+  const adjustSidebar = () => {
+    console.log("Is open : ", isOpen);
+    
+    dispatch(toggleSidebar(!isOpen));
+  };
+
+
   return (
     <div className="flex items-center justify-between bg-indigo-600 text-white p-4 z-50">
+
+      <p onClick={adjustSidebar}>X</p>
       {/* Logo */}
       <Link to="/" className="text-3xl">
         App
@@ -97,7 +111,7 @@ const Header = () => {
           {/* Profile Dropdown Menu */}
           {showSettingsMenu && (
             <div
-              className="absolute top-16 right-0 p-3 bg-black text-white rounded z-50"
+              className="absolute top-10 right-0 p-3 bg-black text-white rounded z-50"
               aria-label="Profile options"
             >
               <ul>
