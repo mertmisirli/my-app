@@ -8,6 +8,7 @@ import workoutSlice from './workoutSlice'
 import workoutPlansSlice from './workoutPlansSlice'
 import questionsSlice from './faqSlice'
 import sidebarSlice from './sidebarSlice'
+import authSlice from './authSlice'
 
 // Persist konfigürasyonu
 const persistConfig = {
@@ -29,6 +30,7 @@ export const store = configureStore({
     plans: workoutPlansSlice,
     questions: questionsSlice,
     sidebar: persistedSidebarReducer, // Persisted reducer'ı burada kullanıyoruz
+    auth: authSlice
   },
 })
 

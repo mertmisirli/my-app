@@ -9,8 +9,9 @@ import { toggleSidebar } from "../redux/sidebarSlice";
 const Header = () => {
   const dispatch = useDispatch();
   const inputText = useSelector((state) => state.news.inputText);
-
   const isOpen = useSelector((state) => state.sidebar.showSidebar)
+
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn)
 
   const [showSettingsMenu, setShowSettingsMenu] = useState(false);
 
@@ -34,7 +35,7 @@ const Header = () => {
 
   const adjustSidebar = () => {
     console.log("Is open : ", isOpen);
-    
+
     dispatch(toggleSidebar(!isOpen));
   };
 
@@ -98,47 +99,58 @@ const Header = () => {
           <MdPostAdd size={24} />
         </button>
 
-        {/* Profile Menu Button */}
-        <div className="relative">
-          <button
-            className="text-white"
-            onClick={toggleSettingsMenu}
-            aria-label="Profile Menu"
-          >
-            Profil
-          </button>
 
-          {/* Profile Dropdown Menu */}
-          {showSettingsMenu && (
-            <div
-              className="absolute top-10 right-0 p-3 bg-black text-white rounded z-50"
-              aria-label="Profile options"
+        {!isLoggedIn && (
+          <div>
+            <Link to="/login" className="block p-2 hover:bg-indigo-700 rounded">
+              Giriş Yap
+            </Link>
+          </div>
+        )}
+
+
+        {isLoggedIn && (
+          <div className="relative">
+            <button
+              className="text-white"
+              onClick={toggleSettingsMenu}
+              aria-label="Profile Menu"
             >
-              <ul>
-                <li>
-                  <Link to="/profile" className="block p-2 hover:bg-indigo-700 rounded">
-                    Hesabım
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/plans" className="block p-2 hover:bg-indigo-700 rounded">
-                    Planlarım
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/calendar" className="block p-2 hover:bg-indigo-700 rounded">
-                    Takvim
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/settings" className="block p-2 hover:bg-indigo-700 rounded">
-                    Ayarlar
-                  </Link>
-                </li>
-              </ul>
-            </div>
-          )}
-        </div>
+              Profil
+            </button>
+
+            {/* Profile Dropdown Menu */}
+            {showSettingsMenu && (
+              <div
+                className="absolute top-10 right-0 p-3 bg-black text-white rounded z-50"
+                aria-label="Profile options"
+              >
+                <ul>
+                  <li>
+                    <Link to="/profile" className="block p-2 hover:bg-indigo-700 rounded">
+                      Hesabım
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/plans" className="block p-2 hover:bg-indigo-700 rounded">
+                      Planlarım
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/calendar" className="block p-2 hover:bg-indigo-700 rounded">
+                      Takvim
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/settings" className="block p-2 hover:bg-indigo-700 rounded">
+                      Ayarlar
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+            )}
+          </div>
+        )}
       </div>
 
       {/* Mobile Sorting Buttons

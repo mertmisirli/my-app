@@ -47,6 +47,8 @@ import Calendar from './pages/Calendar';
 import Settings from './pages/Settings';
 import Sidebar from './components/Sidebar'; // Sidebar component'i
 import Quotation from './pages/sidebar/Quotation/Quotation';
+import Login from './pages/Login';
+import Signup from './pages/Signup';
 
 function App() {
   const showSidebar = useSelector((state) => state.sidebar.showSidebar);
@@ -76,6 +78,8 @@ function App() {
                 <Route path="/plans" element={<Plans />} />
                 <Route path="/calendar" element={<Calendar />} />
                 <Route path="/settings" element={<Settings />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/signup" element={<Signup />} />
 
                 {/* Sidebar Pages */}
                 <Route path="/new-quotation" element={<Quotation />} />
