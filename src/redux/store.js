@@ -14,7 +14,7 @@ import authSlice from './authSlice'
 const persistConfig = {
   key: 'root', // Ana anahtar
   storage,     // Storage olarak localStorage kullanılacak
-  whitelist: ['sidebar'], // Sadece sidebar slice'ını persist edeceğiz (dilerseniz diğerlerini de ekleyebilirsiniz)
+  whitelist: ['sidebar', 'auth'], // Sadece sidebar slice'ını persist edeceğiz (dilerseniz diğerlerini de ekleyebilirsiniz)
 }
 
 // Sidebar slice'ını persist ile sarıyoruz

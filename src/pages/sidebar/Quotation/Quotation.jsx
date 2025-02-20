@@ -219,13 +219,24 @@ const Quotation = () => {
         }, {});
     };
 
+    const groupByTourDate = (data) => {
+        return data.reduce((acc, currentValue) => {
+            // Eğer bu grup zaten varsa, yeni elemanı ekle
+            if (!acc[currentValue.startDate]) {
+                acc[currentValue.startDate] = [];
+            }
+            acc[currentValue.startDate].push(currentValue);
+            return acc;
+        }, {});
+    };
+
     const tableCellStyle = {
         padding: '10px 15px', // Hücre içi boşluk
         textAlign: 'left',     // Yazıyı sola hizala
         border: '1px solid #dee2e6',  // Hücre kenarlığı
     };
 
-    const groupedData = groupByTourType(quotations);
+    const groupedData = groupByTourDate(quotations);
 
     return (
         <>

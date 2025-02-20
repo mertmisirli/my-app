@@ -1,17 +1,18 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Header from '../components/Header'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import '../styles/News.css';
 import { Link } from 'react-router-dom';
 import Footer from '../components/Footer';
+import { getWorkoutBanners } from '../redux/workoutSlice';
 
 const Home = () => {
+    const dispatch = useDispatch();
     const workoutBanners = useSelector(state => state.workout.workoutBanners)
     const workoutCategories = useSelector(state => state.workout.workoutCategories)
     const plans = useSelector(state => state.plans.plans)
     const questions = useSelector(state => state.questions.questions)
-
-    console.log("Length : ", workoutCategories.length);
+    const workoutStatus = useSelector((state) => state.workout.status);
 
 
     const [slideIndex, setSlideIndex] = useState(0);
@@ -19,6 +20,11 @@ const Home = () => {
     const prevSlide = () => { setSlideIndex((prevIndex) => (prevIndex === 0 ? workoutBanners.length - 1 : prevIndex - 1)); };
     const nextSlide = () => { setSlideIndex((prevIndex) => (prevIndex === workoutBanners.length - 1 ? 0 : prevIndex + 1)); };
 
+    useEffect(() => {
+        if (workoutStatus === 'idle') {
+            dispatch(getWorkoutBanners());
+        }
+    }, [dispatch, workoutStatus]);
 
     return (
         <div>
@@ -42,10 +48,10 @@ const Home = () => {
                 <div className="d-flex justify-content-between mx-2 flex-wrap">
                     {workoutCategories && workoutCategories.length > 0 && workoutCategories.map(c => {
                         return (
-                            <Link to={`/category-detail/${c.id}`} key={c.category} className="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
+                            <Link to={`/category-detail/${c.name}`} key={c.name} className="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
                                 <div className="card workout-card" style={{ height: '150px', width: '100%' }}>
                                     <p className="text-center" style={{ position: 'absolute', bottom: '8%', left: '30%' }}>
-                                        {c.category}
+                                        {c.name}
                                     </p>
                                 </div>
                             </Link>
