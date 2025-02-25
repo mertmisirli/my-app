@@ -4,18 +4,20 @@ import { createSlice } from '@reduxjs/toolkit';
 // localStorage'dan mevcut durumu alıyoruz
 const initialState = {
   isLoggedIn: localStorage.getItem('isLoggedIn') === 'true', // 'true' stringini kontrol ediyoruz
+  
 };
 
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    login: (state, action) => {
+    login: (state, action, email) => {
       state.isLoggedIn = true;
       state.user = action.payload;
       
       // Kullanıcı giriş yaptıktan sonra localStorage'a kaydediyoruz
       localStorage.setItem('isLoggedIn', 'true');
+      localStorage.setItem('email', email);
       localStorage.setItem('user', JSON.stringify(action.payload)); // user bilgisini JSON formatında kaydediyoruz
     },
     logout: (state) => {

@@ -120,3 +120,74 @@
 .navigation-links a:hover {
     background-color: #0056b3;
 }
+
+.exercise-list .card-body {
+    padding: 20px;
+  }
+  
+  .exercise-list .card-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+  
+  .exercise-list .card-img-top {
+    height: auto;
+    max-height: 350px;
+    object-fit: cover;
+  }
+  
+  .exercise-list .list-group-item {
+    font-size: 1rem;
+  }
+  
+  .exercise-list .alert {
+    font-size: 1.2rem;
+  }
+
+  .pagination-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pagination-controls button {
+    margin: 0 10px;
+}
+
+.heart {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+    background-color: transparent;
+    display: inline-block;
+    transform: rotate(45deg);
+    border-left: 5px solid orange;
+    border-bottom: 5px solid orange;
+    position: relative;
+}
+
+.heart::before,
+.heart::after {
+    content: '';
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background-color: orange;
+    border-radius: 50%;
+}
+
+.heart::before {
+    left: -15px;
+    top: -15px;
+}
+
+.heart::after {
+    top: -15px;
+    left: 15px;
+}
+
+
+
+  

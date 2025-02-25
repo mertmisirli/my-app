@@ -41,7 +41,7 @@ const Login = () => {
 
             // Başarılı giriş sonrası yapılacak işlemler
             console.log('Success:', data);
-            dispatch(login());
+            dispatch(login(email));
             navigate('/');
 
         } catch (error) {
