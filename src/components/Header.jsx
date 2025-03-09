@@ -5,6 +5,7 @@ import { modalFunc } from "../redux/modalSlice";
 import { filterNews, orderNews, setInputText } from "../redux/newsSlice";
 import { Link } from "react-router-dom";
 import { toggleSidebar } from "../redux/sidebarSlice";
+import LanguageSwitcher from "./LanguageSwitcher";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -65,6 +66,7 @@ const Header = () => {
         </button>
       </div> */}
 
+      <LanguageSwitcher />
       {/* Content Section (Search, Post, Profile) */}
       <div className="flex items-center gap-5">
         {/* Sort Dropdown */}

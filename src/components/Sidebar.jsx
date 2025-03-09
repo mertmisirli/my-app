@@ -3,9 +3,10 @@ import { toggleSidebar } from '../redux/sidebarSlice';
 import '../styles/Sidebar.css';
 import { useState } from 'react';
 import { Link } from "react-router-dom";
-
+import { useTranslation } from 'react-i18next'; // i18next'i import et
 
 const Sidebar = () => {
+    const { t } = useTranslation(); // useTranslation hook'unu kullanarak t fonksiyonunu alıyoruz
     const isOpen = useSelector(state => state.sidebar.showSidebar);
     const dispatch = useDispatch();
 
@@ -31,100 +32,101 @@ const Sidebar = () => {
                 <ul>
                     <li className={`${activeMenu === 'discuss' ? 'activetab' : ''}`}>
                         <div className="menu-item" onClick={() => toggleSubMenu('discuss')}>
-                            Discuss
+                            {t('discuss')}
                             <span className={`expand-icon ${activeMenu === 'discuss' ? 'expanded' : ''}`}>▶</span>
                         </div>
                         {activeMenu === 'discuss' && (
                             <ul className="submenu">
                                 <a href="/news">
-                                    <li href="/news">Forum</li> {/* Ya da React Router için <Link to="/news">Forum</Link> */}
+                                    <li href="/news">{t('forum')}</li> {/* Ya da React Router için <Link to="/news">Forum</Link> */}
                                 </a>
-                                <li>Topics</li>
+                                <li>{t('topics')}</li>
                             </ul>
                         )}
                     </li>
 
                     <li onClick={() => toggleSubMenu('calendar')} className={`${activeMenu === 'calendar' ? 'activetab' : ''}`}>
                         <div className="menu-item">
-                            Calendar
+                            {t('calendar')}
                             <span className={`expand-icon ${activeMenu === 'calendar' ? 'expanded' : ''}`}>▶</span>
                         </div>
                         {activeMenu === 'calendar' && (
                             <ul className="submenu">
-                                <li>Events</li>
-                                <li>Reminders</li>
+                                <li>{t('events')}</li>
+                                <li>{t('reminders')}</li>
                             </ul>
                         )}
                     </li>
                     <li onClick={() => toggleSubMenu('search')} className={`${activeMenu === 'search' ? 'activetab' : ''}`}>
                         <div className="menu-item">
-                            Global Search
+                            {t('globalSearch')}
                             <span className={`expand-icon ${activeMenu === 'search' ? 'expanded' : ''}`}>▶</span>
                         </div>
                         {activeMenu === 'search' && (
                             <ul className="submenu">
-                                <li>By Name</li>
-                                <li>By Date</li>
+                                <li>{t('byName')}</li>
+                                <li>{t('byDate')}</li>
                             </ul>
                         )}
                     </li>
                     <li onClick={() => toggleSubMenu('contacts')} className={`${activeMenu === 'contacts' ? 'activetab' : ''}`}>
                         <div className="menu-item">
-                            Contacts
+                            {t('contacts')}
                             <span className={`expand-icon ${activeMenu === 'contacts' ? 'expanded' : ''}`}>▶</span>
                         </div>
                         {activeMenu === 'contacts' && (
                             <ul className="submenu">
-                                <li>All Contacts</li>
-                                <li>Favorites</li>
+                                <li>{t('allContacts')}</li>
+                                <li>{t('favorites')}</li>
                             </ul>
                         )}
                     </li>
                     <li onClick={() => toggleSubMenu('getPaid')} className={`${activeMenu === 'getPaid' ? 'activetab' : ''}`}>
                         <div className="menu-item">
-                            Get Paid
+                            {t('getPaid')}
+
                             <span className={`expand-icon ${activeMenu === 'getPaid' ? 'expanded' : ''}`}>▶</span>
                         </div>
                         {activeMenu === 'getPaid' && (
                             <ul className="submenu">
-                                <li>Invoices</li>
-                                <li>Payment Methods</li>
+                                <li>{t('invoices')}</li>
+                                <li>{t('paymentMethods')}</li>
                             </ul>
                         )}
                     </li>
                     <li onClick={() => toggleSubMenu('crm')} className={`${activeMenu === 'crm' ? 'activetab' : ''}`}>
                         <div className="menu-item">
-                            CRM
+                            {t('crm')}
                             <span className={`expand-icon ${activeMenu === 'crm' ? 'expanded' : ''}`}>▶</span>
                         </div>
                         {activeMenu === 'crm' && (
                             <ul className="submenu">
-                                <li>Customer List</li>
-                                <li>Sales Pipeline</li>
+                                <li>{t('customerList')}</li>
+                                <li>{t('salesPipeline')}</li>
                             </ul>
                         )}
                     </li>
                     <li onClick={() => toggleSubMenu('sales')} className={`${activeMenu === 'sales' ? 'activetab' : ''}`}>
                         <div className="menu-item">
-                            Sales
+                            {t('sales')}
                             <span className={`expand-icon ${activeMenu === 'sales' ? 'expanded' : ''}`}>▶</span>
                         </div>
                         {activeMenu === 'sales' && (
                             <ul className="submenu">
-                                <li>Leads</li>
-                                <li>Opportunities</li>
+                                <li>{t('leads')}</li>
+                                <li>{t('opportunities')}</li>
                             </ul>
                         )}
                     </li>
                     <li onClick={() => toggleSubMenu('request')} className={`${activeMenu === 'request' ? 'activetab' : ''}`}>
                         <div className="menu-item">
-                            Request
+                            {t('request')}
                             <span className={`expand-icon ${activeMenu === 'request' ? 'expanded' : ''}`}>▶</span>
                         </div>
                         {activeMenu === 'request' && (
                             <ul className="submenu">
-                                <li>New Request</li>
-                                <li>Pending Requests</li>
+                                <li>{t('newRequest')}</li>
+                                <li>{t('pendingRequests')}</li>
                             </ul>
                         )}
                     </li>
@@ -132,81 +134,86 @@ const Sidebar = () => {
                     {/* Updated sections with only the first letter capitalized */}
                     <li onClick={() => toggleSubMenu('quotation')} className={`${activeMenu === 'quotation' ? 'activetab' : ''}`}>
                         <div className="menu-item">
-                            Quotation
+                            {t('quotation')}
                             <span className={`expand-icon ${activeMenu === 'quotation' ? 'expanded' : ''}`}>▶</span>
                         </div>
                         {activeMenu === 'quotation' && (
                             <ul className="submenu">
                                 <a href="/new-quotation">
-                                    <li>New Quote</li>
+                                    <li>{t('newQuote')}</li>
                                 </a>
-                                <li>View Quotes</li>
-                                <li>Quote History</li>
+                                {/* <Link to="/new-quotation">
+
+                                </Link> */}
+                                <li>{t('viewQuotes')}</li>
+                                <li>{t('quoteHistory')}</li>
                             </ul>
                         )}
                     </li>
                     <li onClick={() => toggleSubMenu('groups')} className={`${activeMenu === 'groups' ? 'activetab' : ''}`}>
                         <div className="menu-item">
-                            Groups
+                            {t('groups')}
                             <span className={`expand-icon ${activeMenu === 'groups' ? 'expanded' : ''}`}>▶</span>
                         </div>
                         {activeMenu === 'groups' && (
                             <ul className="submenu">
-                                <li>Create Group</li>
-                                <li>Manage Groups</li>
-                                <li>Group Settings</li>
+                                <li>{t('createGroup')}</li>
+                                <li>{t('manageGroups')}</li>
+                                <li>{t('groupSettings')}</li>
                             </ul>
                         )}
                     </li>
                     <li onClick={() => toggleSubMenu('budget')} className={`${activeMenu === 'budget' ? 'activetab' : ''}`}>
                         <div className="menu-item">
-                            Budget
+                            {t('budget')}
                             <span className={`expand-icon ${activeMenu === 'budget' ? 'expanded' : ''}`}>▶</span>
                         </div>
                         {activeMenu === 'budget' && (
                             <ul className="submenu">
-                                <li>Create Budget</li>
-                                <li>View Budgets</li>
-                                <li>Budget History</li>
+                                <li>{t('createBudget')}</li>
+                                <li>{t('viewBudgets')}</li>
+                                <li>{t('budgetHistory')}</li>
                             </ul>
                         )}
                     </li>
                     <li onClick={() => toggleSubMenu('reporting')} className={`${activeMenu === 'reporting' ? 'activetab' : ''}`}>
                         <div className="menu-item">
-                            Reporting
+                            {t('reporting')}
                             <span className={`expand-icon ${activeMenu === 'reporting' ? 'expanded' : ''}`}>▶</span>
                         </div>
                         {activeMenu === 'reporting' && (
                             <ul className="submenu">
-                                <li>Generate Report</li>
-                                <li>View Reports</li>
-                                <li>Download Reports</li>
+                                <li>{t('generateReport')}</li>
+                                <li>{t('viewReports')}</li>
+                                <li>{t('downloadReports')}</li>
                             </ul>
                         )}
                     </li>
+
                     <li onClick={() => toggleSubMenu('invoicing')} className={`${activeMenu === 'invoicing' ? 'activetab' : ''}`}>
                         <div className="menu-item">
-                            Invoicing
+                            {t('invoicing')}
                             <span className={`expand-icon ${activeMenu === 'invoicing' ? 'expanded' : ''}`}>▶</span>
                         </div>
                         {activeMenu === 'invoicing' && (
                             <ul className="submenu">
-                                <li>Create Invoice</li>
-                                <li>View Invoices</li>
-                                <li>Invoice History</li>
+                                <li>{t('createInvoice')}</li>
+                                <li>{t('viewInvoices')}</li>
+                                <li>{t('invoiceHistory')}</li>
                             </ul>
                         )}
                     </li>
+
                     <li onClick={() => toggleSubMenu('contracts')} className={`${activeMenu === 'contracts' ? 'activetab' : ''}`}>
                         <div className="menu-item">
-                            Contracts
+                            {t('contracts')}
                             <span className={`expand-icon ${activeMenu === 'contracts' ? 'expanded' : ''}`}>▶</span>
                         </div>
                         {activeMenu === 'contracts' && (
                             <ul className="submenu">
-                                <li>Create Contract</li>
-                                <li>View Contracts</li>
-                                <li>Contract Templates</li>
+                                <li>{t('createContract')}</li>
+                                <li>{t('viewContracts')}</li>
+                                <li>{t('contractTemplates')}</li>
                             </ul>
                         )}
                     </li>

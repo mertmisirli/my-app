@@ -5,6 +5,7 @@ import '../styles/News.css';
 import { Link } from 'react-router-dom';
 import Footer from '../components/Footer';
 import { getWorkoutBanners } from '../redux/workoutSlice';
+import { useTranslation } from 'react-i18next';
 
 const Home = () => {
     const dispatch = useDispatch();
@@ -13,7 +14,7 @@ const Home = () => {
     const plans = useSelector(state => state.plans.plans)
     const questions = useSelector(state => state.questions.questions)
     const workoutStatus = useSelector((state) => state.workout.status);
-
+    const { t } = useTranslation();
 
     const [slideIndex, setSlideIndex] = useState(0);
 
@@ -45,13 +46,14 @@ const Home = () => {
 
             {/* Categories */}
             <div className="row mt-2">
+                <h2>{t('categories')}</h2>
                 <div className="d-flex justify-content-between mx-2 flex-wrap">
                     {workoutCategories && workoutCategories.length > 0 && workoutCategories.map(c => {
                         return (
                             <>
                                 <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
                                     <Link to={`/category-detail/${c.name}`} key={c.name} className="text-decoration-none">
-                                        <div className="card workout-card position-relative" style={{ height: '250px' }}>
+                                        <div className="card workout-card position-relative mx-2" style={{ height: '125px' }}>
                                             <img
                                                 src={c.imgUrl}
                                                 alt="description"
@@ -73,7 +75,7 @@ const Home = () => {
             {/* Workout Plans */}
             <div style={{ padding: '20px', marginTop: '50px' }}>
                 <h2 style={{ fontSize: '2rem', fontWeight: 600, color: '#333', textAlign: 'center', marginBottom: '30px' }}>
-                    Workout Plans
+                    {t('workoutPlans')}
                 </h2>
                 <div className="row">
                     {plans && plans.map((p) => (
@@ -103,7 +105,7 @@ const Home = () => {
                                         {p.description}
                                     </p>
                                     <p style={{ fontSize: '0.9rem', color: '#888', marginBottom: '20px' }}>
-                                        Plan ID: {p.id}
+                                        {t('planId')}: {p.id}
                                     </p>
                                     <button
                                         style={{
@@ -118,7 +120,7 @@ const Home = () => {
                                         onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#0056b3'}
                                         onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#007bff'}
                                     >
-                                        View Plan
+                                        {t('viewPlan')}
                                     </button>
                                 </div>
                             </div>
@@ -130,7 +132,7 @@ const Home = () => {
             {/* Tips & Questions */}
             <div className='mx-4' style={{ padding: '20px', backgroundColor: '#f9f9f9', borderRadius: '8px', marginTop: '20px' }}>
                 <h2 style={{ textAlign: 'center', fontSize: '24px', fontWeight: '600', color: '#333', marginBottom: '20px' }}>
-                    Tips & Questions
+                    {t('tipsQuestions')}
                 </h2>
 
                 {questions && questions.map((q) => {

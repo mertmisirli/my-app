@@ -30,7 +30,7 @@
 // export default App;
 // src/App.js
 
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, BrowserRouter } from 'react-router-dom';
 import { Provider, useSelector } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistor } from './redux/store'; // Store ve persistor'ı import ettik
@@ -49,6 +49,7 @@ import Sidebar from './components/Sidebar'; // Sidebar component'i
 import Quotation from './pages/sidebar/Quotation/Quotation';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import './i18n';
 
 function App() {
   const showSidebar = useSelector((state) => state.sidebar.showSidebar);
@@ -57,7 +58,9 @@ function App() {
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <div className="App">
-          <Sidebar />
+          <BrowserRouter>
+            <Sidebar />
+          </BrowserRouter>
 
           <div
             style={{
