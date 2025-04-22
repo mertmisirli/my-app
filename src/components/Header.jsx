@@ -6,6 +6,7 @@ import { filterNews, orderNews, setInputText } from "../redux/newsSlice";
 import { Link } from "react-router-dom";
 import { toggleSidebar } from "../redux/sidebarSlice";
 import LanguageSwitcher from "./LanguageSwitcher";
+import { logout } from "../redux/authSlice";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -44,7 +45,7 @@ const Header = () => {
   return (
     <div className="flex items-center justify-between bg-indigo-600 text-white p-4 z-50">
 
-      <p onClick={adjustSidebar}>X</p>
+      {/* <p onClick={adjustSidebar}>X</p> */}
       {/* Logo */}
       <Link to="/" className="text-3xl">
         App
@@ -67,10 +68,12 @@ const Header = () => {
       </div> */}
 
       <LanguageSwitcher />
+
       {/* Content Section (Search, Post, Profile) */}
       <div className="flex items-center gap-5">
+
         {/* Sort Dropdown */}
-        <div className="text-black hidden md:block">
+        {/* <div className="text-black hidden md:block">
           <select
             className="h-10 rounded-lg px-4"
             name="sort"
@@ -81,7 +84,7 @@ const Header = () => {
             <option value="asc">ARTAN</option>
             <option value="desc">AZALAN</option>
           </select>
-        </div>
+        </div> */}
 
         {/* Search Input */}
         <input
@@ -101,15 +104,21 @@ const Header = () => {
           <MdPostAdd size={24} />
         </button>
 
+        <div>
+          <Link to="/blog" className="block p-2 hover:bg-indigo-700 rounded">
+            Blog
+          </Link>
+        </div>
 
-        {!isLoggedIn && (
+
+        {/* Login Part */}
+        {/* {!isLoggedIn && (
           <div>
             <Link to="/login" className="block p-2 hover:bg-indigo-700 rounded">
               Giriş Yap
             </Link>
           </div>
         )}
-
 
         {isLoggedIn && (
           <div className="relative">
@@ -121,7 +130,6 @@ const Header = () => {
               Profil
             </button>
 
-            {/* Profile Dropdown Menu */}
             {showSettingsMenu && (
               <div
                 className="absolute top-10 right-0 p-3 bg-black text-white rounded z-50"
@@ -148,11 +156,17 @@ const Header = () => {
                       Ayarlar
                     </Link>
                   </li>
+                  <li>
+                    <p className="block p-2 hover:bg-indigo-700 rounded" style={{ cursor: 'pointer' }} onClick={() => {
+                      dispatch(logout())
+                    }}>Çıkış</p>
+                  </li>
                 </ul>
               </div>
             )}
           </div>
-        )}
+        )} */}
+        
       </div>
 
       {/* Mobile Sorting Buttons

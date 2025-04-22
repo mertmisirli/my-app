@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import '../styles/Login.css'; // CSS dosyasını import ediyoruz.
 import Header from '../components/Header';
-import GoogleLoginButton from '../components/GoogleLoginButton';
+// import GoogleLoginButton from '../components/GoogleLoginButton';
 import { useNavigate } from 'react-router-dom';
 import { login, logout } from '../redux/authSlice';
 import { useDispatch } from 'react-redux';
@@ -92,7 +92,7 @@ const Login = () => {
                     </form>
 
                     {/* Google Login Butonu */}
-                    <GoogleLoginButton />
+                    {/* <GoogleLoginButton /> */}
 
 
                     <p className="signup-link">

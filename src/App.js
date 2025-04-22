@@ -35,7 +35,7 @@ import { Provider, useSelector } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistor } from './redux/store'; // Store ve persistor'ı import ettik
 import { store } from './redux/store';
-import Home from './pages/Home';
+import Home from './pages/Portfolio/Home';
 import News from './pages/News';
 import NewsDetail from './pages/NewsDetail';
 import Todo from './pages/Todo';
@@ -50,6 +50,13 @@ import Quotation from './pages/sidebar/Quotation/Quotation';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import './i18n';
+import Blog from './pages/Blog/Blog';
+import BlogDetail from './pages/Blog/BlogDetail';
+import Topic from './pages/Blog/Topic';
+import AdminLogin from './pages/Admin/AdminLogin';
+import AdminPanel from './pages/Admin/AdminPanel';
+import AddProject from './pages/Admin/Panel/AddProject';
+import ProjectDetail from './pages/Blog/ProjectDetail';
 
 function App() {
   const showSidebar = useSelector((state) => state.sidebar.showSidebar);
@@ -59,15 +66,15 @@ function App() {
       <PersistGate loading={null} persistor={persistor}>
         <div className="App">
           <BrowserRouter>
-            <Sidebar />
+            {/* <Sidebar /> */}
           </BrowserRouter>
 
           <div
-            style={{
-              transition: 'margin-left 0.3s', // İçeriğin kayma süresi
-              marginLeft: showSidebar ? '250px' : '0', // Sidebar açıldığında içerik kayacak
-              flex: 1, // İçeriğin geri kalan kısmı
-            }}
+            // style={{
+            //   transition: 'margin-left 0.3s', // İçeriğin kayma süresi
+            //   marginLeft: showSidebar ? '250px' : '0', // Sidebar açıldığında içerik kayacak
+            //   flex: 1, // İçeriğin geri kalan kısmı
+            // }}
           >
             <Router>
               <Routes>
@@ -84,8 +91,19 @@ function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />
 
+                <Route path="/blog" element={<Blog />} />
+                <Route path="/blog-detail/:id" element={<BlogDetail />} />
+                <Route path="/topic/:id" element={<Topic />} />
+                <Route path="/projects/:id" element={<ProjectDetail />} />
+
                 {/* Sidebar Pages */}
                 <Route path="/new-quotation" element={<Quotation />} />
+
+                {/* Admin Pages */}
+                <Route path="/admin" element={<AdminLogin />} />
+                <Route path="/admin-panel" element={<AdminPanel />} />
+                
+                <Route path="/admin-panel/add-project" element={<AddProject />} />
               </Routes>
             </Router>
           </div>
