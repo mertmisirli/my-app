@@ -8,7 +8,7 @@ function Projects() {
 
   const getProjects = async () => {
     setLoading(true);
-    const response = await fetch('https://localhost:7100/api/projects', {
+    const response = await fetch(`${process.env.REACT_APP_BLOG_API_URL}/projects`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
@@ -20,7 +20,7 @@ function Projects() {
     return data;
   }
   const deleteProject = async (id) => {
-    const response = await fetch(`https://localhost:7100/api/projects/${id}`, {
+    const response = await fetch(`${process.env.REACT_APP_BLOG_API_URL}/projects/${id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json'

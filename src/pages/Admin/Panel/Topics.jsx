@@ -11,7 +11,7 @@ function Topics() {
 
     const fetchTopics = async () => {
         try {
-            const response = await fetch('https://localhost:7100/api/Topics', {
+            const response = await fetch(`${process.env.REACT_APP_BLOG_API_URL}/Topics`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -36,7 +36,7 @@ function Topics() {
 
     const deleteTopic = async (id) => {
         try {
-            const response = await fetch(`https://localhost:7100/api/Topics/${id}`, {
+            const response = await fetch(`${process.env.REACT_APP_BLOG_API_URL}/Topics/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
@@ -59,7 +59,7 @@ function Topics() {
         const topicName = document.querySelector('input[name="topicName"]').value;
         console.log(topicName);
 
-        fetch('https://localhost:7100/api/Topics', {
+        fetch(`${process.env.REACT_APP_BLOG_API_URL}/Topics`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -137,7 +137,7 @@ function Topics() {
                                     <button
                                         className='p-2'
                                         onClick={() => toggleOptionsForm(topic.id)}
-                                        style={{ position: 'absolute', top: '2%', right: '2%', fontSize: '15px', cursor: 'pointer' }}>:</button>
+                                        style={{ position: 'absolute', top: '2%', right: '2%', fontSize: '15px', cursor: 'pointer' }}>&#8942;</button>
                                 </div>
 
                             </div>

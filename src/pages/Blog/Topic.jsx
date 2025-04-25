@@ -21,7 +21,7 @@ function Topic() {
 
     const getTopicArticles = async () => {
         try {
-            const response = await fetch(`https://localhost:7100/api/Blogs/topic/${id}`)
+            const response = await fetch(`${process.env.REACT_APP_BLOG_API_URL}/Blogs/topic/${id}`)
             const data = await response.json()
             setFilteredPosts(data)
         } catch (error) {

@@ -111,7 +111,10 @@ const Home = () => {
 
     const fetchArticles = async () => {
         try {
-            const response = await fetch('https://localhost:7100/api/Blogs');
+            console.log("api url", process.env.REACT_APP_BLOG_API_URL);
+
+            const response = await fetch(`${process.env.REACT_APP_BLOG_API_URL}/Blogs`);
+
             if (!response.ok) throw new Error('Network response was not ok');
             const data = await response.json();
             console.log('Articles:', data); // Burada state'e set edebilirsin
@@ -124,7 +127,7 @@ const Home = () => {
 
     const fetchProjects = async () => {
         try {
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/Projects`);
+            const response = await fetch(`${process.env.REACT_APP_BLOG_API_URL}/Projects`);
             if (!response.ok) throw new Error('Network response was not ok');
             const data = await response.json();
             setProjects(data); // State'e veri set etme işlemi
@@ -225,8 +228,15 @@ const Home = () => {
                 {/* Eğitim */}
                 <section className="mb-12">
                     <h2 className="text-2xl font-semibold mb-4">Eğitim</h2>
-                    <div className="bg-white shadow-md rounded-xl p-4 w-full sm:w-1/2">
-                        <p className="font-medium">MEF University</p>
+                    <div className="bg-white d-flex shadow-md rounded-xl p-5 w-full justify-content-between ">
+                        <div className="col-auto ">
+                            <p className="font-medium">MEF University</p>
+                            <p>Bilgisayar Mühendisliği</p>
+                        </div>
+
+                        <div className="col-auto mx-5">
+                            <p className="text-gray-500 text-sm">2019 - 2024</p>
+                        </div>
                     </div>
                 </section>
 
@@ -264,7 +274,7 @@ const Home = () => {
                         {/* Scrollable project list */}
                         <div
                             ref={articlesScrollRef}
-                            className="flex space-x-4 overflow-x-auto scrollbar-hide px-10 scroll-smooth"
+                            className="flex space-x-4 overflow-x-auto scrollbar-hide px-10 scroll-smooth overflow-x-hidden"
                         >
                             {articles.map((article, idx) => (
                                 <Link to={`blog-detail/${article.slug}`}>
@@ -313,7 +323,7 @@ const Home = () => {
 
                         <div
                             ref={projectsScrollRef}
-                            className="flex space-x-4 overflow-x-auto scrollbar-hide px-10 scroll-smooth">
+                            className="flex space-x-4 overflow-x-auto scrollbar-hide px-10 scroll-smooth overflow-x-hidden">
                             {projects.map((project, idx) => (
                                 <Link to={`projects/${project.slug}`}>
                                     <div

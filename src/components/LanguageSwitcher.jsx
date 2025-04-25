@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import '../styles/LanguageSwitcher.css';
 
 const LanguageSwitcher = () => {
   const { i18n } = useTranslation();
@@ -8,7 +7,7 @@ const LanguageSwitcher = () => {
 
   const changeLanguage = (lng) => {
     i18n.changeLanguage(lng);
-    setIsMenuOpen(false); // Dil değiştirildikten sonra menüyü kapat
+    setIsMenuOpen(false);
   };
 
   const toggleMenu = () => {
@@ -16,17 +15,29 @@ const LanguageSwitcher = () => {
   };
 
   return (
-    <div className={`language-switcher ${isMenuOpen ? 'active' : ''}`}>
-      <button onClick={toggleMenu}>
+    <div className="relative inline-block text-left text-sm">
+      <button
+        onClick={toggleMenu}
+        className="flex items-center gap-1 px-3 py-1 border border-gray-300 text-dark rounded-md bg-white hover:bg-gray-100 transition"
+      >
         {i18n.language.toUpperCase()} <span>▼</span>
       </button>
-      <div className="language-dropdown">
-        <button onClick={() => changeLanguage('tr')}>TR</button>
-        <button onClick={() => changeLanguage('en')}>EN</button>
-        <button onClick={() => changeLanguage('fr')}>FR</button>
-        <button onClick={() => changeLanguage('de')}>DE</button>
-        <button onClick={() => changeLanguage('es')}>ES</button>
-      </div>
+
+      {isMenuOpen && (
+        <div className="absolute z-10 mt-2 w-24 bg-white border border-gray-200 rounded-md shadow-lg animate-fade-in">
+          {['tr', 'en', 'fr', 'de', 'es'].map((lng) => (
+            <button
+              key={lng}
+              onClick={() => changeLanguage(lng)}
+              className={`block w-full px-3 py-2 text-left  ${
+                i18n.language === lng ? 'font-semibold text-blue-600' : 'text-orange-700'
+              }`}
+            >
+              {lng.toUpperCase()}
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

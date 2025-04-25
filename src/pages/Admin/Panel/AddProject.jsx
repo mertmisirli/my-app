@@ -10,7 +10,7 @@ function AddProject() {
         const formData = new FormData();
         formData.append('file', file);
 
-        const response = await fetch('https://localhost:7016/api/media/upload', {
+        const response = await fetch(`${process.env.REACT_APP_MEDIA_API_URL}/media/upload`, {
             method: 'POST',
             body: formData
         });
@@ -42,7 +42,7 @@ function AddProject() {
         const title = document.getElementById('projectTitle').value;
         const description = document.getElementById('projectDescription').value;
 
-        const response = await fetch('https://localhost:7100/api/projects', {
+        const response = await fetch(`${process.env.REACT_APP_BLOG_API_URL}/projects`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

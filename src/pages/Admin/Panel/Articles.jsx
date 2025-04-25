@@ -25,7 +25,8 @@ function Articles() {
 
   const fetchArticles = async () => {
     try {
-      const response = await fetch('https://localhost:7100/api/Blogs');
+      
+      const response = await fetch(`${process.env.REACT_APP_BLOG_API_URL}/Blogs`);
       if (!response.ok) throw new Error('Network response was not ok');
       const data = await response.json();
       setArticles(data);
@@ -36,7 +37,7 @@ function Articles() {
 
   const fetchTopics = async () => {
     try {
-      const response = await fetch('https://localhost:7100/api/Topics', {
+      const response = await fetch(`${process.env.REACT_APP_BLOG_API_URL}/Topics`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -77,7 +78,7 @@ function Articles() {
     const articleContent = document.querySelector('textarea[name="articleContent"]').value;
 
     try {
-      const response = await fetch('https://localhost:7100/api/Blogs', {
+      const response = await fetch(`${process.env.REACT_APP_BLOG_API_URL}/Blogs`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -102,7 +103,7 @@ function Articles() {
 
   const deleteArticle = async (id) => {
     try {
-      const response = await fetch(`https://localhost:7100/api/Blogs/${id}`, {
+      const response = await fetch(`${process.env.REACT_APP_BLOG_API_URL}/Blogs/${id}`, {
         method: 'DELETE',
       });
 
@@ -154,7 +155,7 @@ function Articles() {
                 className='p-2'
                 onClick={() => toggleOptionsForm(item.id)}
                 style={{ position: 'absolute', top: '2%', right: '5%', fontSize: '15px', cursor: 'pointer' }}>
-                :
+                &#8942;
               </button>
             </div>
           </div>

@@ -12,7 +12,7 @@ function ProjectDetail() {
         setError(null);
 
         try {
-            const response = await fetch(`https://localhost:7100/api/Projects/${id}`);
+            const response = await fetch(`${process.env.REACT_APP_BLOG_API_URL}/Projects/${id}`);
             if (!response.ok) throw new Error("Project not found.");
             const data = await response.json();
             setProject(data);

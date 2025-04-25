@@ -2,17 +2,17 @@ import React, { useEffect, useRef, useState } from 'react'
 import Header from '../../components/Header'
 import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux';
+import Search from '../../components/Blog/Search';
 
 function Blog() {
     const sliderRef = useRef(null)
-    const [searchTerm, setSearchTerm] = useState('');
     const [topics, setTopics] = useState([]); // State for topics
     const [articles, setArticles] = useState([]); // State for articles
     // const topics = useSelector((state) => state.topic.topics);
 
     const fetchTopics = async () => {
         try {
-            const response = await fetch('https://localhost:7100/api/Topics', {
+            const response = await fetch(`${process.env.REACT_APP_BLOG_API_URL}/Topics`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -34,7 +34,7 @@ function Blog() {
 
     const fetchArticles = async () => {
         try {
-            const response = await fetch('https://localhost:7100/api/Blogs');
+            const response = await fetch(`${process.env.REACT_APP_BLOG_API_URL}/Blogs`);
             if (!response.ok) throw new Error('Network response was not ok');
             const data = await response.json();
             console.log('Articles:', data); // Burada state'e set edebilirsin
@@ -44,7 +44,6 @@ function Blog() {
             console.error('Error fetching articles:', error);
         }
     };
-
 
 
 
@@ -77,6 +76,20 @@ function Blog() {
         fetchArticles(); // Component mount olduğunda veri çekme işlemi
     }, []);
 
+    setInterval(() => {
+        if (sliderRef.current) {
+            const { scrollLeft, scrollWidth, clientWidth } = sliderRef.current
+            const maxScrollLeft = scrollWidth - clientWidth
+
+            if (scrollLeft >= maxScrollLeft - 5) {
+                sliderRef.current.scrollTo({ left: 0, behavior: 'smooth' })
+            } else {
+                sliderRef.current.scrollBy({ left: clientWidth, behavior: 'smooth' })
+            }
+        }
+    }
+        , 5000); // 5 saniyede bir kaydırma işlemi
+
     return (
         <>
             <Header />
@@ -86,16 +99,7 @@ function Blog() {
                     <Link to="/" className="text-blue-600 hover:underline">Ana Sayfa</Link> / <span>Blog</span>
                 </div>
 
-                {/* Arama */}
-                <div className="text-center mb-6">
-                    <input
-                        type="text"
-                        placeholder="Bloglarda ara..."
-                        className="px-4 py-2 border border-gray-300 rounded-lg w-1/2 focus:outline-none focus:ring-2 focus:ring-blue-400"
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                    />
-                </div>
+                <Search />
 
                 <div style={{ position: 'relative' }}>
                     <div
@@ -107,15 +111,16 @@ function Blog() {
                                 <div
                                     key={item.id}
                                     className="w-full flex-shrink-0 snap-center px-1"
-                                    style={{ overflowX: 'hidden', overflowY: 'hidden' }}
-                                >
-                                    <div className="bg-white rounded-xl shadow-md p-3 mx-auto overflow-x-hidden"
-                                        style={{ width: '90%', height: '245px' }}>
-                                        <h2 className="text-2xl font-bold mb-2">{item.title}</h2>
-                                        <p className="text-gray-600">
-                                            {item.content.length > 100 ? `${item.content.substring(0, 500)}...` : item.content}
-                                        </p>
-                                    </div>
+                                    style={{ overflowX: 'hidden', overflowY: 'hidden' }}>
+                                    <Link to={`/blog-detail/${item.slug}`} className="w-full h-full flex items-center justify-center">
+                                        <div className="bg-white rounded-xl shadow-md p-3 mx-auto overflow-x-hidden"
+                                            style={{ width: '90%', height: '245px' }}>
+                                            <h2 className="text-2xl font-bold mb-2">{item.title}</h2>
+                                            <p className="text-gray-600">
+                                                {item.content.length > 800 ? `${item.content.substring(0, 800)}...` : item.content}
+                                            </p>
+                                        </div>
+                                    </Link>
                                 </div>
                             ))}
                         </div>
@@ -208,7 +213,7 @@ function Blog() {
                             </div>
 
                             {/* İlgili Yazılar */}
-                            <div className="mt-8 container mx-auto px-4">
+                            {/* <div className="mt-8 container mx-auto px-4">
                                 <h2 className="text-2xl font-bold text-center mb-6">İlgili Yazılar</h2>
                                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                                     {[1, 2, 3].map((item) => (
@@ -228,7 +233,7 @@ function Blog() {
                                         </div>
                                     ))}
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 </div>

@@ -24,7 +24,7 @@ function AdminLogin() {
     setError(null);
 
     try {
-      const response = await fetch('https://localhost:7289/api/Users/LoginAsAdmin', {
+      const response = await fetch(`${process.env.REACT_APP_USER_API_URL}/Users/LoginAsAdmin`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

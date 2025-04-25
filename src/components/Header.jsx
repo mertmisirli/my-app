@@ -43,13 +43,21 @@ const Header = () => {
 
 
   return (
-    <div className="flex items-center justify-between bg-indigo-600 text-white p-4 z-50">
+    <div className="flex items-center justify-between bg-secondary text-white p-4 z-50">
 
       {/* <p onClick={adjustSidebar}>X</p> */}
       {/* Logo */}
       <Link to="/" className="text-3xl">
-        App
+        CV
       </Link>
+
+      <div className="flex items-center gap-4">
+        <Link to="/blog" className="block p-2 hover:bg-gray-700 rounded">
+          Blog
+        </Link>
+        <LanguageSwitcher />
+      </div>
+
 
       {/* Sorting buttons for larger screens
       <div className="hidden md:flex gap-4">
@@ -67,13 +75,12 @@ const Header = () => {
         </button>
       </div> */}
 
-      <LanguageSwitcher />
 
       {/* Content Section (Search, Post, Profile) */}
-      <div className="flex items-center gap-5">
+      {/* <div className="flex items-center gap-5"> */}
 
-        {/* Sort Dropdown */}
-        {/* <div className="text-black hidden md:block">
+      {/* Sort Dropdown */}
+      {/* <div className="text-black hidden md:block">
           <select
             className="h-10 rounded-lg px-4"
             name="sort"
@@ -86,33 +93,28 @@ const Header = () => {
           </select>
         </div> */}
 
-        {/* Search Input */}
-        <input
+      {/* Search Input */}
+      {/* <input
           className="h-10 rounded-lg px-4 text-black"
           type="text"
           value={inputText}
           onChange={handleInputChange}
           placeholder="Arama yap..."
-        />
+        /> */}
 
-        {/* Add Post Button */}
-        <button
+      {/* Add Post Button */}
+      {/* <button
           className="bg-indigo-800 w-10 h-10 rounded-full flex items-center justify-center"
           onClick={() => dispatch(modalFunc())}
           aria-label="Create New Post"
         >
           <MdPostAdd size={24} />
-        </button>
-
-        <div>
-          <Link to="/blog" className="block p-2 hover:bg-indigo-700 rounded">
-            Blog
-          </Link>
-        </div>
+        </button> */}
 
 
-        {/* Login Part */}
-        {/* {!isLoggedIn && (
+
+      {/* Login Part */}
+      {/* {!isLoggedIn && (
           <div>
             <Link to="/login" className="block p-2 hover:bg-indigo-700 rounded">
               Giriş Yap
@@ -166,8 +168,8 @@ const Header = () => {
             )}
           </div>
         )} */}
-        
-      </div>
+
+      {/* </div> */}
 
       {/* Mobile Sorting Buttons
       <div className="md:hidden flex flex-col gap-4">

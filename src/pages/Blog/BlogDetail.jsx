@@ -13,8 +13,7 @@ function BlogDetail() {
 
     const getArticleDetail = async () => {
         try {
-            console.log("detail for ID:", `https://localhost:7100/api/Blogs/blog/${id}`);
-            const response = await fetch(`https://localhost:7100/api/Blogs/blog/${id}`, {
+            const response = await fetch(`${process.env.REACT_APP_BLOG_API_URL}/Blogs/blog/${id}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

@@ -57,6 +57,7 @@ import AdminLogin from './pages/Admin/AdminLogin';
 import AdminPanel from './pages/Admin/AdminPanel';
 import AddProject from './pages/Admin/Panel/AddProject';
 import ProjectDetail from './pages/Blog/ProjectDetail';
+import FilteredPage from './pages/Blog/FilteredPage';
 
 function App() {
   const showSidebar = useSelector((state) => state.sidebar.showSidebar);
@@ -99,6 +100,7 @@ function App() {
                 {/* Sidebar Pages */}
                 <Route path="/new-quotation" element={<Quotation />} />
 
+                <Route path='blog/filter/:id' element={<FilteredPage />} />
                 {/* Admin Pages */}
                 <Route path="/admin" element={<AdminLogin />} />
                 <Route path="/admin-panel" element={<AdminPanel />} />
