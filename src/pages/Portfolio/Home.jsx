@@ -253,7 +253,7 @@ const Home = () => {
                 </section>
 
                 {/* Makaleler */}
-                <section className="mb-12">
+                <section className="mb-12 ">
                     <h2 className="text-2xl font-semibold mb-4">Makaleler</h2>
                     <div className="flex justify-end">
                         <Link to="/blog"><p className="text-gray-600 text-right">
@@ -274,7 +274,7 @@ const Home = () => {
                         {/* Scrollable project list */}
                         <div
                             ref={articlesScrollRef}
-                            className="flex space-x-4 overflow-x-auto scrollbar-hide px-10 scroll-smooth overflow-x-hidden"
+                            className="flex py-6 space-x-4 overflow-x-auto scrollbar-hide px-10 scroll-smooth overflow-x-hidden"
                         >
                             {articles.map((article, idx) => (
                                 <Link to={`blog-detail/${article.slug}`}>

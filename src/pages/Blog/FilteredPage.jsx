@@ -43,12 +43,15 @@ function FilteredPage() {
                         (
                             <>
                                 <Search />
-                                <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
+                                <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6" >
                                     {filteredData.map((item) => (
                                         <Link to={`/blog-detail/${item.slug}`} key={item.id}>
-                                            <div className="bg-white p-6 rounded-2xl shadow-md border hover:shadow-lg transition-shadow duration-300">
+                                            <div className="bg-white p-6 rounded-2xl shadow-md border hover:shadow-lg transition-shadow duration-300"
+                                                style={{ minHeight: '480px' }}>
                                                 <h2 className="text-2xl font-bold text-gray-800 mb-2">{item.title}</h2>
-                                                <p className="text-gray-700 whitespace-pre-line">{item.content}</p>
+                                                <p className="text-gray-700 whitespace-pre-line mt-3">
+                                                    {item.content.length > 400 ? (item.content.substring(0, 400) + '...') : item.content}
+                                                </p>
                                             </div>
                                         </Link>
                                     ))}

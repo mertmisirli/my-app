@@ -58,6 +58,7 @@ import AdminPanel from './pages/Admin/AdminPanel';
 import AddProject from './pages/Admin/Panel/AddProject';
 import ProjectDetail from './pages/Blog/ProjectDetail';
 import FilteredPage from './pages/Blog/FilteredPage';
+import NotificationClient from './pages/Admin/Panel/NotificationClient';
 
 function App() {
   const showSidebar = useSelector((state) => state.sidebar.showSidebar);
@@ -106,6 +107,8 @@ function App() {
                 <Route path="/admin-panel" element={<AdminPanel />} />
                 
                 <Route path="/admin-panel/add-project" element={<AddProject />} />
+
+                <Route path='/notification' element={<NotificationClient />} />
               </Routes>
             </Router>
           </div>

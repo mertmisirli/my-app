@@ -6,7 +6,8 @@ import Cookies from 'js-cookie';  // js-cookie kütüphanesini doğru şekilde i
 // Lazy yüklenen componentler
 const Users = lazy(() => import('./Panel/Users'));
 const Roles = lazy(() => import('./Panel/Roles'));
-const Permissions = lazy(() => import('./Panel/Permissions'));
+// const Permissions = lazy(() => import('./Panel/Permissions'));
+const Permissions = lazy(() => import('./Panel/Permissions.tsx'));
 const Articles = lazy(() => import('./Panel/Articles'));
 const Projects = lazy(() => import('./Panel/Projects'));
 const Settings = lazy(() => import('./Panel/Settings'));
