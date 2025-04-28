@@ -3,6 +3,11 @@ import Topics from './Panel/Topics';
 import decodeToken from '../../utils/tokenUtils';  // decodeToken fonksiyonunu içeri aktarıyoruz
 import Cookies from 'js-cookie';  // js-cookie kütüphanesini doğru şekilde import ediyoruz
 
+// REACT_APP_BLOG_API_URL=https://localhost:7100/api
+// REACT_APP_USER_API_URL=https://localhost:7289/api
+// REACT_APP_MEDIA_API_URL=https://localhost:7016/api
+// REACT_APP_HUB_API_URL=https://localhost:7254/
+
 // Lazy yüklenen componentler
 const Users = lazy(() => import('./Panel/Users'));
 const Roles = lazy(() => import('./Panel/Roles'));
