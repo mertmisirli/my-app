@@ -22,7 +22,6 @@ function Topics() {
                 throw new Error('Veri alınamadı!');
             }
             const data = await response.json(); // Burada JSON verisini alıyoruz
-            console.log('Topics:', data); // Burada state'e set edebilirsin
             setTopics(data); // State'e veri set etme işlemi
 
         } catch (error) {
@@ -48,7 +47,6 @@ function Topics() {
             }
             fetchTopics(); // Silme işlemi sonrası güncelle
             setOpenOptionsId(null); // Seçenekleri kapat
-            console.log('Veri silindi:', response);
         }
         catch (error) {
             console.error('Hata:', error);
@@ -57,7 +55,6 @@ function Topics() {
 
     const saveTopic = async () => {
         const topicName = document.querySelector('input[name="topicName"]').value;
-        console.log(topicName);
 
         fetch(`${process.env.REACT_APP_BLOG_API_URL}/Topics`, {
             method: 'POST',

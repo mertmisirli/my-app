@@ -1,51 +1,32 @@
 import React, { useEffect, useRef, useState } from 'react'
 import Header from '../../components/Header'
 import { Link } from 'react-router-dom'
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Search from '../../components/Blog/Search';
+import { fetchArticles } from '../../redux/articleSlice';
+import { fetchTopics } from '../../redux/categorySlice';
 
 function Blog() {
     const sliderRef = useRef(null)
-    const [topics, setTopics] = useState([]); // State for topics
-    const [articles, setArticles] = useState([]); // State for articles
+    //const [topics, setTopics] = useState([]); // State for topics
+    //const [articles, setArticles] = useState([]); // State for articles
     // const topics = useSelector((state) => state.topic.topics);
+    const [size, setSize] = useState(15);
+    const [page, setPage] = useState(1);
+    const [blogFrom, setBlogFrom] = useState(0);
 
-    const fetchTopics = async () => {
-        try {
-            const response = await fetch(`${process.env.REACT_APP_BLOG_API_URL}/Topics`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
+    const dispatch = useDispatch();
 
-            if (!response.ok) {
-                throw new Error('Veri alınamadı!');
-            }
+    const { articles, count, loading, error } = useSelector((state) => state.article);
+    const { topics, articlesByTopic } = useSelector((state) => state.category);
 
-            const data = await response.json();
-            console.log('Topics:', data); // Burada state'e set edebilirsin
-            setTopics(data); // State'e veri set etme işlemi
+    useEffect(() => {
+        dispatch(fetchArticles({ page: page, size: size }));
+    }, [dispatch, page]);
 
-        } catch (error) {
-            console.error('Error fetching topics:', error);
-        }
-    };
-
-    const fetchArticles = async () => {
-        try {
-            const response = await fetch(`${process.env.REACT_APP_BLOG_API_URL}/Blogs`);
-            if (!response.ok) throw new Error('Network response was not ok');
-            const data = await response.json();
-            console.log('Articles:', data); // Burada state'e set edebilirsin
-
-            setArticles(data);
-        } catch (error) {
-            console.error('Error fetching articles:', error);
-        }
-    };
-
-
+    useEffect(() => {
+        dispatch(fetchTopics());
+    }, [dispatch])
 
     const scrollLeft = () => {
         if (sliderRef.current) {
@@ -70,11 +51,6 @@ function Blog() {
             }
         }
     }
-
-    useEffect(() => {
-        fetchTopics(); // Component mount olduğunda veri çekme işlemi
-        fetchArticles(); // Component mount olduğunda veri çekme işlemi
-    }, []);
 
     setInterval(() => {
         if (sliderRef.current) {
@@ -175,9 +151,10 @@ function Blog() {
                             <div className="container mx-auto px-4 mt-3">
                                 <h1 className="text-3xl font-bold text-center mb-8">Blog</h1>
 
+                                <p>{count} Adet bulundu.</p>
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                    {articles.slice(5).map((item) => (
+                                    {articles.slice(0).map((item) => (
                                         <div
                                             key={item}
                                             className="bg-white rounded-2xl shadow-md overflow-hidden transition-transform transform hover:-translate-y-1 hover:shadow-lg"
@@ -209,6 +186,23 @@ function Blog() {
                                             </div>
                                         </div>
                                     ))}
+                                </div>
+
+                                <div className="row navigation">
+                                    <div className="d-flex justify-content-center">
+                                        <p className="mx-2" style={{ cursor: 'pointer' }}
+                                            onClick={() => {
+                                                setPage(page - 1)
+                                                setBlogFrom(blogFrom - size)
+                                                console.log("From ", blogFrom , size)
+                                            }}>Before</p>
+                                        <p className="mx-2">{page}</p>
+                                        <p className="mx-2" style={{ cursor: 'pointer' }} onClick={() => {
+                                            setPage(page + 1)
+                                            setBlogFrom(blogFrom + size)
+                                            console.log("From ", blogFrom , size)
+                                        }}>After</p>
+                                    </div>
                                 </div>
                             </div>
 

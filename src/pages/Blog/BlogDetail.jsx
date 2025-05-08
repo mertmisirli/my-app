@@ -9,6 +9,7 @@ function BlogDetail() {
 
     const cards = [1, 2, 3, 4, 5, 6, 7];
     const [currentIndex, setCurrentIndex] = useState(0);
+    const [relatedPosts, setRelatedPosts] = useState([])
     const visibleCount = 4;
 
     const getArticleDetail = async () => {
@@ -21,16 +22,13 @@ function BlogDetail() {
             });
 
             var text = await response.text(); // Önce metni al
-            console.log("Raw response text:", text); // Metni kontrol et
-            
+
             // Önce status kontrolü yap
             if (!response.ok) {
                 const text = await response.text(); // JSON olmayabilir
                 console.log('Error response:', text);
                 throw new Error(`HTTP ${response.status} - ${text}`);
             }
-            console.log("Response status:", response);
-            
             // const data = await response.json(); // Artık güvenli
             const data = JSON.parse(text); // JSON.parse ile metni JSON'a çevir
             console.log("Article Detail Data:", data);
@@ -41,9 +39,38 @@ function BlogDetail() {
         }
     };
 
+    const getRelatedPosts = async () => {
+        try {
+            for (const topic of blog.topicNames) {
+                const response = await fetch(`${process.env.REACT_APP_BLOG_API_URL}/Blogs/topic/${topic}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+    
+                const result = await response.json();
+                setRelatedPosts(prev => [...prev, result]);
+            }
+        } catch (error) {
+            console.error("Hata oluştu:", error);
+        }
+    };
+    
+
     useEffect(() => {
         getArticleDetail();
     }, [id]);
+
+    useEffect(() => {
+        if (blog != null) {
+            getRelatedPosts();            
+        }
+    }, [blog]);
+
+    useEffect(() => {
+        console.log("Count: ", relatedPosts.length);
+    }, [relatedPosts]);
 
     const next = () => {
         if (currentIndex < cards.length - visibleCount) {
@@ -111,7 +138,7 @@ function BlogDetail() {
     return (
         <>
             <Header />
-            <div className="container mt-5 mb-5 ">
+            <div className="mt-5 mb-5 mx-5 sm:mx-32">
                 <div>
                     <img src={blog.image} alt={blog.title} className="img-fluid rounded-4 mb-4" />
                     <h1 className="fw-bold">{blog.title}</h1>

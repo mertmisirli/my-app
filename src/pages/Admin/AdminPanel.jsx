@@ -16,6 +16,7 @@ const Permissions = lazy(() => import('./Panel/Permissions.tsx'));
 const Articles = lazy(() => import('./Panel/Articles'));
 const Projects = lazy(() => import('./Panel/Projects'));
 const Settings = lazy(() => import('./Panel/Settings'));
+const Products = lazy(() => import('./Panel/Products.jsx'));
 
 function AdminPanel() {
   const [activeTab, setActiveTab] = useState('Users');
@@ -26,12 +27,9 @@ function AdminPanel() {
   // Token kontrol ve admin yetkisi doğrulama
   useEffect(() => {
     const token = Cookies.get('accessToken'); // Cookie'den token'ı al
-    console.log("Gelen Token :", token);
 
     if (token) {
       const decodedToken = decodeToken(token); // Token'ı çöz
-      console.log("Çözülmüş Token :", decodedToken);
-      console.log("Çözülmüş Token Rolü :", decodedToken.role);
       
       
       if (decodedToken && decodedToken.role === 'Admin') {
@@ -72,6 +70,8 @@ function AdminPanel() {
         return <Topics />;
       case 'Settings':
         return <Settings />;
+      case 'Products':
+        return <Products />;
       default:
         return <p>Bir panel seçin.</p>;
     }
@@ -99,7 +99,7 @@ function AdminPanel() {
         {/* Sidebar */}
         <div className="col-md-2">
           <ul className="list-group">
-            {['Users', 'Roles', 'Permissions', 'Articles', 'Projects', 'Topics', 'Settings'].map((item) => (
+            {['Users', 'Roles', 'Permissions', 'Articles', 'Projects', 'Topics', 'Settings', 'Products'].map((item) => (
               <li
                 key={item}
                 className={`list-group-item ${activeTab === item ? 'active' : ''}`}

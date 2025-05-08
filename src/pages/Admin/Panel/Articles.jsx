@@ -1,17 +1,28 @@
 import React, { useEffect, useState } from 'react';
 import slugify from '../../../utils/slugifyUtils';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteArticleThunk, fetchArticles, saveArticleThunk } from '../../../redux/articleSlice';
 
 function Articles() {
   const [showAddArticle, setShowAddArticle] = useState(false);
   const [openOptionsId, setOpenOptionsId] = useState(null);
-  const [articles, setArticles] = useState([]);
   const [topicsList, setTopicsList] = useState([]);
   const [selectedTopics, setSelectedTopics] = useState([]);
   const [selectedTopicsIds, setSelectedTopicsIds] = useState([]);
   const [inputValue, setInputValue] = useState('');
 
+  const [size, setSize] = useState(20);
+  const [page, setPage] = useState(1);
+
+  const dispatch = useDispatch();
+
+  const { articles, count, loading, error } = useSelector((state) => state.article);
+
   useEffect(() => {
-    fetchArticles();
+    dispatch(fetchArticles({ page: page, size: size }));
+  }, [dispatch, page]);
+
+  useEffect(() => {
     fetchTopics();
   }, []);
 
@@ -23,17 +34,6 @@ function Articles() {
     setOpenOptionsId(openOptionsId === id ? null : id);
   };
 
-  const fetchArticles = async () => {
-    try {
-      
-      const response = await fetch(`${process.env.REACT_APP_BLOG_API_URL}/Blogs`);
-      if (!response.ok) throw new Error('Network response was not ok');
-      const data = await response.json();
-      setArticles(data);
-    } catch (error) {
-      console.error('Error fetching articles:', error);
-    }
-  };
 
   const fetchTopics = async () => {
     try {
@@ -48,7 +48,6 @@ function Articles() {
         throw new Error('Veri alınamadı!');
       }
       const data = await response.json(); // Burada JSON verisini alıyoruz
-      console.log('Topics:', data); // Burada state'e set edebilirsin
       setTopicsList(data); // State'e veri set etme işlemi
 
     } catch (error) {
@@ -77,42 +76,13 @@ function Articles() {
     const articleName = document.querySelector('input[name="articleName"]').value;
     const articleContent = document.querySelector('textarea[name="articleContent"]').value;
 
-    try {
-      const response = await fetch(`${process.env.REACT_APP_BLOG_API_URL}/Blogs`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: articleName,
-          slug: slugify(articleName),
-          author: 'mert',
-          content: articleContent,
-          topicIds: selectedTopicsIds,
-        }),
-      });
-
-      if (!response.ok) throw new Error('Veri gönderilemedi!');
-      console.log('Veri gönderildi:', response);
-      setShowAddArticle(false);
-      fetchArticles();
-    } catch (error) {
-      console.error('Hata:', error);
-    }
+    dispatch(saveArticleThunk({ articleName: articleName, articleContent: articleContent, selectedTopicsIds: selectedTopicsIds }));
+    setShowAddArticle(false);
+    dispatch(fetchArticles({ page: page, size: size }));
   };
 
   const deleteArticle = async (id) => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_BLOG_API_URL}/Blogs/${id}`, {
-        method: 'DELETE',
-      });
-
-      if (!response.ok) throw new Error('Veri silinemedi!');
-      console.log('Veri silindi:', response);
-      fetchArticles();
-    } catch (error) {
-      console.error('Hata:', error);
-    }
+    dispatch(deleteArticleThunk(id));
   }
 
   return (
@@ -135,11 +105,11 @@ function Articles() {
                 <h5 className="card-title">{item.title}</h5>
                 {item.content.length > 250
                   ? item.content.substring(0, 250) + '...'
-                  : item.content}                
-                  
-                  {item.topicNames?.map((topic, index) => (
-                    <span key={index} className="badge bg-secondary me-1">{topic}</span>
-                  ))}
+                  : item.content}
+
+                {item.topicNames?.map((topic, index) => (
+                  <span key={index} className="badge bg-secondary me-1">{topic}</span>
+                ))}
 
                 {openOptionsId === item.id && (
                   <div className='card' style={{ position: 'absolute', top: '12%', right: '5%', backgroundColor: 'white', borderRadius: '16px', padding: '10px' }}>
@@ -160,6 +130,14 @@ function Articles() {
             </div>
           </div>
         ))}
+      </div>
+
+      <div className="row navigation">
+        <div className="d-flex justify-content-center">
+          <p className="mx-2" style={{cursor:'pointer'}} onClick={() => setPage(page - 1)}>Before</p>
+          <p className="mx-2">{page}</p>
+          <p className="mx-2" style={{cursor:'pointer'}} onClick={() => setPage(page + 1)}>After</p>
+        </div>
       </div>
 
       {showAddArticle && (

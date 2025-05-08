@@ -1,39 +1,40 @@
 import React, { useEffect, useState } from 'react'
 import { Link, Route, useParams } from 'react-router-dom'
 import Header from '../../components/Header'
-
-// Örnek blog içerikleri
-const allPosts = [
-    { id: 1, title: 'React Nedir?', category: 'yazilim' },
-    { id: 1, title: 'React Nedir?', category: 'yazilim' },
-    { id: 1, title: 'React Nedir?', category: 'yazilim' },
-    { id: 1, title: 'React Nedir?', category: 'yazilim' },
-    { id: 2, title: 'Yeni Teknolojiler', category: 'teknoloji' },
-    { id: 3, title: 'CSS ile Tasarım', category: 'tasarim' },
-    { id: 4, title: 'Spor ve Sağlık', category: 'saglik' },
-    { id: 5, title: 'JavaScript Güncellemeleri', category: 'yazilim' },
-    { id: 6, title: 'Ekonomi 2025 Tahminleri', category: 'ekonomi' },
-]
+import { useDispatch, useSelector } from 'react-redux'
+import { getArticlesByTopic } from '../../redux/categorySlice'
 
 function Topic() {
     const { id } = useParams()
     const [filteredPosts, setFilteredPosts] = useState([])
 
-    const getTopicArticles = async () => {
-        try {
-            const response = await fetch(`${process.env.REACT_APP_BLOG_API_URL}/Blogs/topic/${id}`)
-            const data = await response.json()
-            setFilteredPosts(data)
-        } catch (error) {
-            console.error('Error fetching articles:', error)
-        }
-    }
+    const dispatch = useDispatch();
+
+    const { topics, loading, error } = useSelector((state) => state.category);
+
     useEffect(() => {
-        // id burada kategori key'idir (örn. yazilim, ekonomi, vs.)
-        // const result = allPosts.filter((post) => post.category === id)
-        // setFilteredPosts(result)
-        getTopicArticles();
-    }, [id])
+        const fetchTopicArticles = async () => {
+            try {
+                const resultAction = await dispatch(getArticlesByTopic({ id }));
+
+                console.log("Result ", resultAction);
+                
+                if (getArticlesByTopic.fulfilled.match(resultAction)) {
+                    console.log("Başarılı");
+                    setFilteredPosts(resultAction.payload); // payload -> gelen veridir
+                  } else {
+                    console.error('Topic articles yüklenemedi.');
+                  }
+                // Eğer başarılı ise:
+
+            }
+            catch (error) {
+                console.error('Hata:', error);
+            }
+        };
+
+        fetchTopicArticles();
+    }, [dispatch, id]);
 
     return (
         <>

@@ -6,6 +6,8 @@ import { Link, Route } from 'react-router-dom';
 import Footer from '../../components/Footer';
 import { getWorkoutBanners } from '../../redux/workoutSlice';
 import { useTranslation } from 'react-i18next';
+import jsPDF from "jspdf";
+import WheelOfFortune from '../../components/Other/WheelOfFortune';
 
 const Home = () => {
     const dispatch = useDispatch();
@@ -108,18 +110,20 @@ const Home = () => {
     ]);
     const projectsScrollRef = useRef();
     const articlesScrollRef = useRef();
+    const [size, setSize] = useState(20);
+    const [page, setPage] = useState(1);
 
     const fetchArticles = async () => {
         try {
             console.log("api url", process.env.REACT_APP_BLOG_API_URL);
 
-            const response = await fetch(`${process.env.REACT_APP_BLOG_API_URL}/Blogs`);
+            const response = await fetch(`${process.env.REACT_APP_BLOG_API_URL}/Blogs?Page=${page}&Size=${size}`);
 
             if (!response.ok) throw new Error('Network response was not ok');
             const data = await response.json();
             console.log('Articles:', data); // Burada state'e set edebilirsin
 
-            setArticles(data);
+            setArticles(data.articles);
         } catch (error) {
             console.error('Error fetching articles:', error);
         }
@@ -155,6 +159,65 @@ const Home = () => {
     const prevSlide = () => { setSlideIndex((prevIndex) => (prevIndex === 0 ? workoutBanners.length - 1 : prevIndex - 1)); };
     const nextSlide = () => { setSlideIndex((prevIndex) => (prevIndex === workoutBanners.length - 1 ? 0 : prevIndex + 1)); };
 
+
+
+    const downloadPDF = (workExperiences) => {
+        const doc = new jsPDF();
+
+        let y = 20;
+
+        // Başlık: Hakkımda
+        doc.setFontSize(16);
+        doc.setFont("helvetica", "bold");
+        doc.text("Hakkımda", 10, y);
+
+        y += 10;
+        doc.setFontSize(11);
+        doc.setFont("helvetica", "normal");
+        const aboutText = `Teknik ve analitik altyapıya sahip bir İş Analisti olarak veri görselleştirme, süreç optimizasyonu ve SQL tabanlı analiz konularında bilgi birikimine sahibim. İş kararlarını destekleyecek etkili ve kapsamlı dokümantasyonlar hazırlama konusunda deneyimliyim. Veri bilimi ve yapay zekaya olan ilgim, problem çözme becerilerim ve etkili iletişim yeteneklerimle ekip çalışmalarına ve organizasyonel süreçlerin iyileştirilmesine katkı sağlıyorum.`;
+        const aboutLines = doc.splitTextToSize(aboutText, 180);
+        doc.text(aboutLines, 10, y);
+        y += aboutLines.length * 6 + 10;
+
+        // Başlık: Deneyimler
+        doc.setFontSize(16);
+        doc.setFont("helvetica", "bold");
+        doc.text("Deneyimler", 10, y);
+        y += 10;
+
+        // Deneyimleri döngüyle yaz
+        workExperiences.map((work) => {
+            if (y > 270) {
+                doc.addPage();
+                y = 20;
+            }
+
+            // Şirket adı
+            doc.setFontSize(12);
+            doc.setFont("helvetica", "bold");
+            doc.text(work.company, 10, y);
+
+            // Süre bilgisi
+            doc.setFontSize(10);
+            doc.setFont("helvetica", "normal");
+            doc.text(work.duration, 160, y);
+
+            y += 6;
+
+            // Açıklamalar
+            work.description.forEach((desc) => {
+                const descLines = doc.splitTextToSize(`• ${desc.text}`, 180);
+                doc.text(descLines, 12, y);
+                y += descLines.length * 6;
+            });
+
+            y += 6;
+        });
+
+        doc.save("cv.pdf");
+    };
+
+
     useEffect(() => {
         fetchArticles();
         fetchProjects();
@@ -174,6 +237,11 @@ const Home = () => {
                 {/* <h1 className="text-4xl font-bold text-center mb-8">Portfolyo Site</h1> */}
 
                 {/* Özet */}
+                <div className="row">
+                    <div className="d-flex justify-content-end">
+                        <button onClick={downloadPDF}>Pdf</button>
+                    </div>
+                </div>
                 <section className="mb-12">
                     <h2 className="text-2xl font-semibold mb-2">Hakkımda</h2>
                     <p className="text-gray-700">
@@ -353,6 +421,10 @@ const Home = () => {
                             ▶
                         </button>
                     </div>
+                </section>
+
+                <section>
+                    <WheelOfFortune />
                 </section>
 
 

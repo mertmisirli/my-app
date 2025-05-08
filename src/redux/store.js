@@ -10,6 +10,8 @@ import questionsSlice from './faqSlice'
 import sidebarSlice from './sidebarSlice'
 import authSlice from './authSlice'
 import  topicSlice  from './topicSlice'
+import  articleSlice  from './articleSlice'
+import  categorySlice  from './categorySlice'
 
 // Persist konfigürasyonu
 const persistConfig = {
@@ -33,6 +35,8 @@ export const store = configureStore({
     sidebar: persistedSidebarReducer, // Persisted reducer'ı burada kullanıyoruz
     auth: authSlice,
     topic : topicSlice,
+    article : articleSlice,
+    category : categorySlice
   },
 })
 

@@ -38,12 +38,9 @@ function AdminLogin() {
       });
 
       const text = await response.text();
-      console.log('Gelen yanıt:', text);
       
       try {
         const data = JSON.parse(text);  // Eğer JSON dönüyorsa parse edilir
-        console.log('Login Response:', data);
-        console.log('Access Token:', data.accessToken);
 
         if (data && data.accessToken) {
           Cookies.set('accessToken', data.accessToken, { expires: 7 });
@@ -53,7 +50,6 @@ function AdminLogin() {
         }
       } catch (err) {
         console.error('JSON parse hatası:', err);
-        console.log('Gelen yanıt:', text);
         setError('Yanıttan token okunamadı.');
       } finally {
         setLoading(false);
@@ -69,12 +65,9 @@ function AdminLogin() {
 
   useEffect(() => {
     const token = Cookies.get('accessToken');  // Cookie'den token'ı alıyoruz
-    console.log("Gelen Token :", token);
 
     if (token) {
       const decodedToken = decodeToken(token);  // Token'ı çöz
-      console.log("Çözülmüş Token :", decodedToken);
-      console.log("Çözülmüş Token Rolü :", decodedToken.role);
 
       if (decodedToken && decodedToken.role === 'Admin') {
         navigate('/admin-panel');  // Eğer admin ise yönlendiriyoruz
