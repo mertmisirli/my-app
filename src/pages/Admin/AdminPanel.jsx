@@ -2,6 +2,7 @@ import React, { lazy, Suspense, startTransition, useState, useEffect } from 'rea
 import Topics from './Panel/Topics';
 import decodeToken from '../../utils/tokenUtils';  // decodeToken fonksiyonunu içeri aktarıyoruz
 import Cookies from 'js-cookie';  // js-cookie kütüphanesini doğru şekilde import ediyoruz
+import Messages from './Panel/Messages.jsx';
 
 // REACT_APP_BLOG_API_URL=https://localhost:7100/api
 // REACT_APP_USER_API_URL=https://localhost:7289/api
@@ -72,6 +73,8 @@ function AdminPanel() {
         return <Settings />;
       case 'Products':
         return <Products />;
+      case 'Messages':
+        return <Messages />;
       default:
         return <p>Bir panel seçin.</p>;
     }
@@ -99,7 +102,7 @@ function AdminPanel() {
         {/* Sidebar */}
         <div className="col-md-2">
           <ul className="list-group">
-            {['Users', 'Roles', 'Permissions', 'Articles', 'Projects', 'Topics', 'Settings', 'Products'].map((item) => (
+            {['Users', 'Roles', 'Permissions', 'Articles', 'Projects', 'Topics', 'Settings', 'Products', 'Messages'].map((item) => (
               <li
                 key={item}
                 className={`list-group-item ${activeTab === item ? 'active' : ''}`}

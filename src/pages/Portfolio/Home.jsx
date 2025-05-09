@@ -8,6 +8,8 @@ import { getWorkoutBanners } from '../../redux/workoutSlice';
 import { useTranslation } from 'react-i18next';
 import jsPDF from "jspdf";
 import WheelOfFortune from '../../components/Other/WheelOfFortune';
+import { ref, push, onValue } from "firebase/database";
+import { database } from "../../firebase"; // Firebase bağlantı dosyan
 
 const Home = () => {
     const dispatch = useDispatch();
@@ -17,6 +19,59 @@ const Home = () => {
     const questions = useSelector(state => state.questions.questions)
     const workoutStatus = useSelector((state) => state.workout.status);
     const [projects, setProjects] = useState([]);
+
+    const [showMessageBox, setShowMessageBox] = useState(false);
+    const [message, setMessage] = useState("");
+    const [messages, setMessages] = useState([]);
+    const [userId, setUserId] = useState(null);
+
+    const toggleMessageBox = () => {
+        setShowMessageBox(!showMessageBox);
+    };
+
+    // Mesajları Firebase'den anlık olarak dinle
+    useEffect(() => {
+        var userId = localStorage.getItem("chat_user_id");
+        if (!userId) {
+            // Eğer kullanıcı ID'si yoksa, yeni bir UUID oluşturuluyor ve localStorage'a kaydediliyor
+            userId = crypto.randomUUID();
+            localStorage.setItem("chat_user_id", userId);
+        }
+
+        setUserId(userId);
+
+        // Mesajların kaydedileceği veritabanı referansı
+        const messagesRef = ref(database, `messages/${userId}`);
+        const unsubscribe = onValue(messagesRef, (snapshot) => {
+            const data = snapshot.val();
+            const messageArray = data
+                ? Object.entries(data).map(([key, value]) => ({ id: key, ...value }))
+                : [];
+            setMessages(messageArray);
+        });
+
+        return () => unsubscribe(); // temizle
+    }, []);
+
+    const sendMessage = async () => {
+        console.log("Sending message:", message);
+
+        if (message.trim() === "") return;
+
+        // Mesajların userId altında gruplanmasını sağlamak için messages/{userId} referansını kullanıyoruz
+        const messagesRef = ref(database, `messages/${userId}`);
+
+        // Mesajı veritabanına ekliyoruz
+        await push(messagesRef, {
+            text: message,
+            timestamp: Date.now(),
+            userId: userId,
+        });
+
+        // Gönderilen mesajı sıfırlıyoruz
+        setMessage("");
+    };
+
 
     const [workExperiences, setWorkExperiences] = useState([
         {
@@ -232,7 +287,7 @@ const Home = () => {
     return (
         <>
             <Header />
-            <div className="max-w-6xl mx-auto px-4 py-10">
+            <div className="max-w-6xl mx-auto px-4 py-10" style={{ position: 'relative' }}>
                 {/* Başlık */}
                 {/* <h1 className="text-4xl font-bold text-center mb-8">Portfolyo Site</h1> */}
 
@@ -430,6 +485,49 @@ const Home = () => {
 
 
             </div>
+            {/* Message */}
+            <section style={{ position: 'fixed', bottom: '5px', right: '20px', zIndex: 999 }}>
+                <div className="w-80 bg-white shadow-lg rounded-lg">
+                    <div
+                        onClick={toggleMessageBox}
+                        className="flex justify-between items-center p-4 cursor-pointer bg-blue-100 rounded-t-lg"
+                    >
+                        <h2 className="text-lg font-semibold">Canlı Mesaj</h2>
+                        <span className="text-gray-500 hover:text-gray-700">
+                            {showMessageBox ? "−" : "+"}
+                        </span>
+                    </div>
+
+                    <div
+                        className={`overflow-hidden transition-all duration-300 ease-in-out ${showMessageBox ? "max-h-[500px] p-4" : "max-h-0 p-0"
+                            }`}
+                    >
+                        <div className="h-40 overflow-y-auto border rounded-md p-2 mb-2 bg-gray-50">
+                            {messages.map((msg) => (
+                                <div key={msg.id} className="text-sm text-gray-800 mb-1">
+                                    {msg.text}
+                                </div>
+                            ))}
+                        </div>
+
+                        <textarea
+                            className="w-full h-20 p-2 border rounded-lg resize-none"
+                            placeholder="Mesajınızı buraya yazın..."
+                            value={message}
+                            onChange={(e) => setMessage(e.target.value)}
+                        ></textarea>
+
+                        <div className="flex justify-end mt-2">
+                            <button
+                                onClick={sendMessage}
+                                className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
+                            >
+                                Gönder
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
             <Footer />
         </>
 
