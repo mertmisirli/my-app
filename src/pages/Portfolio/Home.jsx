@@ -490,7 +490,7 @@ const Home = () => {
                 <div className="w-80 bg-white shadow-lg rounded-lg">
                     <div
                         onClick={toggleMessageBox}
-                        className="flex justify-between items-center p-4 cursor-pointer bg-blue-100 rounded-t-lg"
+                        className="flex justify-between items-center p-3 cursor-pointer bg-blue-100 rounded-t-lg"
                     >
                         <h2 className="text-lg font-semibold">Canlı Mesaj</h2>
                         <span className="text-gray-500 hover:text-gray-700">

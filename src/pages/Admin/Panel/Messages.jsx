@@ -7,6 +7,12 @@ function Messages() {
     const [selectedMessage, setSelectedMessage] = useState(null);
     const [currentUserId, setCurrentUserId] = useState(null);
 
+    useEffect(() => {
+        if (currentUserId && messages[currentUserId]) {
+            setSelectedMessage(messages[currentUserId]);
+        }
+    }, [messages, currentUserId]);
+
     // Firebase'den mesajları gerçek zamanlı olarak dinleme
     useEffect(() => {
         const messagesRef = ref(database, "messages");
@@ -104,8 +110,25 @@ function Messages() {
                                         }}
                                     >
                                         {selectedMessage.map((message) => (
-                                            <li key={message.id} className="list-group-item">
-                                                {message.text}
+                                            <li
+                                                key={message.id}
+                                                className="list-group-item border-0"
+                                                style={{
+                                                    display: 'flex',
+                                                    justifyContent: message.userId === 1 ? 'flex-end' : 'flex-start',
+                                                }}
+                                            >
+                                                <div
+                                                    style={{
+                                                        backgroundColor: message.userId === 1 ? '#d1e7dd' : '#e9ecef',
+                                                        padding: '10px 15px',
+                                                        borderRadius: '15px',
+                                                        maxWidth: '60%',
+                                                        whiteSpace: 'pre-wrap',
+                                                    }}
+                                                >
+                                                    {message.text}
+                                                </div>
                                             </li>
                                         ))}
                                     </div>
