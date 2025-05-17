@@ -55,6 +55,9 @@ const Header = () => {
         <Link to="/blog" className="block p-2 hover:bg-gray-700 rounded">
           Blog
         </Link>
+        <Link to="/ereader" className="block p-2 hover:bg-gray-700 rounded">
+          EReader
+        </Link>
         <LanguageSwitcher />
       </div>
 

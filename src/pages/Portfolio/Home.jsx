@@ -504,9 +504,29 @@ const Home = () => {
                     >
                         <div className="h-40 overflow-y-auto border rounded-md p-2 mb-2 bg-gray-50">
                             {messages.map((msg) => (
-                                <div key={msg.id} className="text-sm text-gray-800 mb-1">
-                                    {msg.text}
-                                </div>
+                                // <div key={msg.id} className="text-sm text-gray-800 mb-1">
+                                //     {msg.text}
+                                // </div>
+                                <li
+                                    key={msg.id}
+                                    className="list-group-item border-0"
+                                    style={{
+                                        display: 'flex',
+                                        justifyContent: msg.userId === 1 ? 'flex-start' : 'flex-end',
+                                    }}
+                                >
+                                    <div
+                                        style={{
+                                            backgroundColor: msg.userId === 1 ? '#e9ecef' : '#d1e7dd',
+                                            padding: '10px 15px',
+                                            borderRadius: '15px',
+                                            maxWidth: '60%',
+                                            whiteSpace: 'pre-wrap',
+                                        }}
+                                    >
+                                        {msg.text}
+                                    </div>
+                                </li>
                             ))}
                         </div>
 

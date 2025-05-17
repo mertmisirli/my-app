@@ -59,6 +59,7 @@ import AddProject from './pages/Admin/Panel/AddProject';
 import ProjectDetail from './pages/Blog/ProjectDetail';
 import FilteredPage from './pages/Blog/FilteredPage';
 import NotificationClient from './pages/Admin/Panel/NotificationClient';
+import Ereader from './pages/Portfolio/Ereader';
 
 function App() {
   const showSidebar = useSelector((state) => state.sidebar.showSidebar);
@@ -97,6 +98,7 @@ function App() {
                 <Route path="/blog-detail/:id" element={<BlogDetail />} />
                 <Route path="/topic/:id" element={<Topic />} />
                 <Route path="/projects/:id" element={<ProjectDetail />} />
+                <Route path="/ereader" element={<Ereader />} />
 
                 {/* Sidebar Pages */}
                 <Route path="/new-quotation" element={<Quotation />} />
